@@ -7,6 +7,7 @@
 ### 初级算法
 
 * [数组](./Algorithm/basic/Array.md)
+* [字符串](./Algorithm/basic/String.md)
 
 
 ## Java
