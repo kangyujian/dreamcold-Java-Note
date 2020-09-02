@@ -34,7 +34,7 @@
 
 - [Spring简介](./framework/Spring/Spring简介.md)
 - [IOC理论的推导](./framework/Spring/IOC理论的推导.md)
-- [Hello Spring](./framework/Spring/Spring简介.md)
+- [Hello Spring](./framework/Spring/HelloSpring.md)
 
 
 
