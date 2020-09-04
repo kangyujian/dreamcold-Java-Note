@@ -37,6 +37,7 @@
 - [IOC理论的推导](./framework/Spring/IOC理论的推导.md)
 - [Hello Spring](./framework/Spring/HelloSpring.md)
 - [依赖注入](./framework/Spring/依赖注入.md)
+- [自动装配](./framework/Spring/自动装配.md)
 
 
 
