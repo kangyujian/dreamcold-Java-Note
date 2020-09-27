@@ -10,6 +10,7 @@
 * [字符串](./Algorithm/basic/String.md)
 
 
+
 ## Java
 
 ### Java基础
@@ -23,10 +24,12 @@
 
 - [集合框架概述](./Java/container/集合框架概述.md)
 
+
 ## 多线程
 
 - [概述](./Java/mutithread/概述.md)
 - [创建线程](./Java/mutithread/创建线程.md)
+
 
 
 ## 框架
@@ -39,6 +42,8 @@
 - [依赖注入](./framework/Spring/依赖注入.md)
 - [自动装配](./framework/Spring/自动装配.md)
 - [使用注解开发](./framework/Spring/使用注解开发.md)
+- [静态代理模式](./framework/Spring/静态代理模式.md)
+
 
 
 
