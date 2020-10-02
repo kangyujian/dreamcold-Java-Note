@@ -43,7 +43,7 @@
 - [自动装配](./framework/Spring/自动装配.md)
 - [使用注解开发](./framework/Spring/使用注解开发.md)
 - [静态代理模式](./framework/Spring/静态代理模式.md)
-
+- [动态代理](./framework/Spring/动态代理.md)
 
 
 
