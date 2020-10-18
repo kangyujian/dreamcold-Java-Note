@@ -259,3 +259,7 @@ public class StartTest {
         </resources>
     </build>
 ```
+
+3. 我的项目目录
+
+![](images/2020-10-10-15-52-17.png)
