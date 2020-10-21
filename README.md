@@ -11,17 +11,10 @@
 - [基础简介](./Java/basic/基础简介.md)
 - [变量](./Java/basic/变量.md)
 - [运算符](./Java/basic/运算符.md)
+- [数组](./Java/basic/数组.md)
+- [类的基础](./Java/basic/类的基础.md)
 
 
-## Java容器
-
-- [集合框架概述](./Java/container/集合框架概述.md)
-
-
-## 多线程
-
-- [概述](./Java/mutithread/概述.md)
-- [创建线程](./Java/mutithread/创建线程.md)
 
 
 
