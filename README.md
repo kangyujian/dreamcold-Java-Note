@@ -40,6 +40,7 @@
 - [mybatis实现改查增删](./framework/mybatis/mybatis实现改查增删.md)
 - [一对多的查询](./framework/mybatis/一对多查询.md)
 - [多对一的查询](./framework/mybatis/多对一查询.md)
+- [多对多查询](./framework/mybatis/多对多查询.md)
 
 
 
