@@ -28,7 +28,9 @@
 ### Mysql
 
 - [为什么要学习Mysql](./database/Mysql/为什么需要学习Mysql.md)
-- [数据库的相关概念](./database/Mysql/为什么需要学习Mysql.md)
+- [数据库的相关概念](./database/Mysql/数据库的相关概念.md)
+
+
 
 
 
