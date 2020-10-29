@@ -8,17 +8,12 @@
 ### Java基础
 
 - [计算机与编程概述](./Java/basic/计算机与编程概述.md)
-
 - [基础简介](./Java/basic/基础简介.md)
-
 - [变量](./Java/basic/变量.md)
-
 - [运算符](./Java/basic/运算符.md)
-
 - [条件执行](Java/basic/条件执行.md)
-
+- [循环](./Java/basic/循环.md)
 - [数组](./Java/basic/数组.md)
-
 - [类的基础](./Java/basic/类的基础.md)
 
 
