@@ -29,6 +29,8 @@
 
 - [为什么要学习Mysql](./database/Mysql/为什么需要学习Mysql.md)
 - [数据库的相关概念](./database/Mysql/数据库的相关概念.md)
+- [数据库如何存储数据](./database/Mysql/数据库如何存储数据.md)
+- [Mysql的简介](./database/Mysql/Mysql的简介.md)
 
 
 
