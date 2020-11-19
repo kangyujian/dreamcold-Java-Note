@@ -14,7 +14,7 @@
 - [条件执行](Java/basic/条件执行.md)
 - [循环](./Java/basic/循环.md)
 - [数组](./Java/basic/数组.md)
-- [类的基础](./Java/basic/类的基础.md)
+- [面向对象](./Java/basic/面向对象.md)
 
 
 
