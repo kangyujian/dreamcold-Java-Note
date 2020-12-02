@@ -16,6 +16,7 @@
 - [数组](./Java/basic/数组.md)
 - [面向对象](./Java/basic/面向对象.md)
 - [异常处理](./Java/basic/异常处理.md)
+- [泛型](./Java/basic/泛型.md)
 
 
 
