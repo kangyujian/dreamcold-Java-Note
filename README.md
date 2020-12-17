@@ -21,13 +21,7 @@
 ### Java容器
 
 - [Java容器概述](./Java/container/Java容器概述.md)
-- 
-
-
-
-
-
-
+- [Collection架构](./Java/container/Collection架构.md)
 
 ## 数据库
 
