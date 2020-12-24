@@ -24,6 +24,7 @@
 - [Collection架构](./Java/container/Collection架构.md)
 - [ArrayList剖析](./Java/container/ArrayList剖析.md)
 - [LinkedList剖析](./Java/container/LinkedList剖析.md)
+- [HashMap剖析](./Java/container/HashMap剖析.md)
 
 ## 数据库
 
