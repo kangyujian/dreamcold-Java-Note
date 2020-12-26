@@ -622,10 +622,10 @@ private V getForNullKey() {
  (1)因为其put操作对key为null场景使用putForNullKey方法做了单独处理，HashMap允许null作为Key
 
  (2)在计算table的下标的时候，是根据key的hashcode值调用hash()方法之后获取hash值与数组length-1进行&运算，length-1的二进制位全为1，这是为了能够均匀分布，避免冲突（长度要求为2的整数幂次方）
-​ (3)不管是get还是put以及resize，执行过程中都会对key的hashcode进行hash计算，而可变对象其hashcode很容易变化，所以HashMap建议用不可变对象(如String类型)作为Key.
-​ (4)HashMap是线程不安全的，在多线程环境下扩容时候可能会导致环形链表死循环，所以若需要多线程场景下操作可以使用ConcurrentHashMap（下面我们通过图示简单演示一下这个情况）
-​ (5)当发生冲突时，HashMap采用链地址法处理冲突
-​ (6)HashMap初始容量定为16，简单认为是8的话扩容阈值为6，阈值太小导致扩容频繁;而32的话可能空间利用率低。
+ (3)不管是get还是put以及resize，执行过程中都会对key的hashcode进行hash计算，而可变对象其hashcode很容易变化，所以HashMap建议用不可变对象(如String类型)作为Key.
+ (4)HashMap是线程不安全的，在多线程环境下扩容时候可能会导致环形链表死循环，所以若需要多线程场景下操作可以使用ConcurrentHashMap（下面我们通过图示简单演示一下这个情况）
+ (5)当发生冲突时，HashMap采用链地址法处理冲突
+ (6)HashMap初始容量定为16，简单认为是8的话扩容阈值为6，阈值太小导致扩容频繁;而32的话可能空间利用率低。
 
 ### jdk7中并发情况下的环形链表问题
 
