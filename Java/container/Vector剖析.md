@@ -840,3 +840,9 @@ str:300
 vec.isEmpty():true
 ```
 
+## 引用
+
+1. 如果天空不死博客：https://www.cnblogs.com/skywang12345/p/3308833.html
+2. 不二人生博客:https://blog.csdn.net/king14bhhb/article/details/110881567
+
+注意：本文大量使用他人博客内容，仅仅作为个人学习使用，向原作者致敬!
