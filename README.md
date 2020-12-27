@@ -26,6 +26,7 @@
 - [LinkedList剖析](./Java/container/LinkedList剖析.md)
 - [Vector剖析](./Java/container/Vector剖析.md)
 - [Stack剖析](./Java/container/Stack剖析.md)
+- [ArrayDeque剖析](./Java/container/ArrayDeque剖析.md)
 - [HashMap剖析](./Java/container/HashMap剖析.md)
 
 ## 数据库
