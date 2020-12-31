@@ -102,8 +102,6 @@ public class Demo16 {
 
 <img src="images/image-20201231160013688.png" alt="image-20201231160013688" style="zoom: 67%;" />![image-20201231160028950](images/image-20201231160028950.png)
 
-<img src="images/image-20201231160013688.png" alt="image-20201231160013688" style="zoom: 67%;" />![image-20201231160028950](images/image-20201231160028950.png)
-
 ## 编码
 
 早期版本的Java规定`.properties`文件编码是ASCII编码（ISO8859-1），如果涉及到中文就必须用`name=\u4e2d\u6587`来表示，非常别扭。从JDK9开始，Java的`.properties`文件可以使用UTF-8编码了。
