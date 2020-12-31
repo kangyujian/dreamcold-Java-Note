@@ -38,7 +38,7 @@
 - [HashMap剖析](./Java/container/HashMap剖析.md)
 - [Hashtable剖析](./Java/container/Hashtable剖析.md)
 - [TreeMap剖析](./Java/container/TreeMap剖析.md)
-- [WeakHashMap剖析](./Java/container/WeakHashMap剖析.md)
+- [Properties的使用](./Java/container/Properties的使用.md)
 
 
 
