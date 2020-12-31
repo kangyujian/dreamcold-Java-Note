@@ -1357,6 +1357,7 @@ for(Object value : map.values()){
 2. 如果天空不死博客:https://www.cnblogs.com/skywang12345/p/3310835.html
 3. YSOcean博客:https://www.cnblogs.com/ysocean/p/8711071.html
 4. 风沙迷了眼:https://www.cnblogs.com/fsmly/p/11278561.html
+5. 美团技术团队的博客：https://tech.meituan.com/2016/06/24/java-hashmap.html
 
 注意：本文大量使用他人博客内容，仅仅作为个人学习使用，向原作者致敬!
 
