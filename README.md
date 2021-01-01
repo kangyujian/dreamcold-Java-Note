@@ -32,6 +32,7 @@
 - [Vector剖析](./Java/container/Vector剖析.md)
 - [Stack剖析](./Java/container/Stack剖析.md)
 - [ArrayDeque剖析](./Java/container/ArrayDeque剖析.md)
+- [使用PriorityQueue](./Java/container/使用PriorityQueue.md)
 
 #### Map接口
 
@@ -45,6 +46,7 @@
 
 - [HashSet剖析](./Java/container/HashSet剖析.md)
 - [TreeSet剖析](./Java/container/TreeSet剖析.md)
+- [LinkedHashSet相关](./Java/container/LinkedHashSet相关.md)
 
 ## 数据库
 
