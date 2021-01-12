@@ -51,10 +51,18 @@
 ### 多线程
 
 - [前置知识](./Java/muti-thread/前置知识.md)
+
 - [进程与线程的概念](./Java/muti-thread/进程与线程的概念.md)
+
 - [并行和并发的概念](./Java/muti-thread/并行和并发的概念.md)
+
 - [多线程的应用](./Java/muti-thread/多线程的应用.md)
+
 - [创建线程](./Java/muti-thread/创建线程.md)
+
+- [线程运行](./Java/muti-thread/线程运行.md)
+
+- [线程运行的原理](./Java/muti-thread/线程运行的原理.md)
 
 ## 数据库
 
