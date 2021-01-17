@@ -63,7 +63,9 @@
 
 - [File类的常用方法](./Java/io/File类的常用方法.md)
 - [IO流原理以及流的分类](./Java/io/IO流原理以及流的分类.md)
-- [FileReader读取文件](./Java/io/FileReader读取文件.md)
+- [FileReader与FileWriter](./Java/io/FileReader与FileWriter.md)
+- [FileInputStream和FileOutStream](./Java/io/FileInputStream和FileOutStream.md)
+- [缓冲流](./Java/io/缓冲流.md)
 
 
 
