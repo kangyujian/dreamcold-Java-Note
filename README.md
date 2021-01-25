@@ -15,6 +15,7 @@
 - [循环](./Java/basic/循环.md)
 - [数组](./Java/basic/数组.md)
 - [面向对象](./Java/basic/面向对象.md)
+- [常用类](./Java/basic/常用类.md)
 - [异常处理](./Java/basic/异常处理.md)
 - [泛型](./Java/basic/泛型.md)
 
@@ -81,7 +82,7 @@
 - [网络协议](./Java/network/网络协议.md)
 - [TCP网络编程](./Java/network/TCP网络编程.md)
 - [UDP网络编程](./Java/network/UDP网络编程.md)
-- [URL编程.md](./Java/network/URL编程.md)
+- [URL编程](./Java/network/URL编程.md)
 
 
 
