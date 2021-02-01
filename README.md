@@ -20,6 +20,9 @@
 - [异常处理](./Java/basic/异常处理.md)
 - [泛型](./Java/basic/泛型.md)
 - [注解](./Java/basic/注解.md)
+- [多线程](./Java/basic/多线程.md)
+
+
 
 ### Java容器
 
@@ -51,7 +54,7 @@
 - [TreeSet剖析](./Java/container/TreeSet剖析.md)
 - [LinkedHashSet相关](./Java/container/LinkedHashSet相关.md)
 
-### 多线程
+### 并发
 
 - [前置知识](./Java/muti-thread/前置知识.md)
 - [进程与线程的概念](./Java/muti-thread/进程与线程的概念.md)
