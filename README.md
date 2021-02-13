@@ -22,8 +22,7 @@
 - [注解](./Java/basic/注解.md)
 - [反射](./Java/basic/反射.md)
 - [多线程](./Java/basic/多线程.md)
-
-
+- [Java8新特性](./Java/basic/Java8新特性.md)
 
 ### Java容器
 
@@ -98,10 +97,11 @@
 
 ### Mysql
 
-- [为什么要学习Mysql](./database/Mysql/为什么需要学习Mysql.md)
-- [数据库的相关概念](./database/Mysql/数据库的相关概念.md)
-- [数据库如何存储数据](./database/Mysql/数据库如何存储数据.md)
-- [Mysql的简介](./database/Mysql/Mysql的简介.md)
+#### 基础篇
+
+- [数据库介绍](./database/Mysql/数据库介绍.md)
+
+
 
 
 
