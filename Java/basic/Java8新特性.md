@@ -94,8 +94,8 @@ public class LambdaTest02 {
 
 ```
 ->lambda操作符戚箭头操作符
-->左边: lambda形参列表(其实就是 接口中的抽象方法的形参列表)
-->右边: lambda体 (其实就是 重写的抽象方法的方法体)
+->左边: lambda形参列表(其实就是 接口中的抽象方法的形参列表),如果参数列表只有一个参数可以省略()
+->右边: lambda体 (其实就是 重写的抽象方法的方法体),如果Lambda体中仅仅只有一条执行语句，可能是return语句，可以省略一对{},以及return关键字
 ```
 
 3. Lambda 表达式的使用: (分为6 种情况介绍)
@@ -250,9 +250,98 @@ public class Demo01 {
 
 ![image-20210213173423368](images/image-20210213173423368.png)
 
+示例六：语法格式四。Lambda若只需要一个参 数时，参数的小括号可以省略
 
+```java
+package com.dreamcold.java8;
+
+import java.util.function.Consumer;
+
+public class LambdaTest05 {
+    public static void main(String[] args) {
+        Consumer<String> consumer=new Consumer<String>() {
+            @Override
+            public void accept(String s) {
+                System.out.println(s);
+            }
+        };
+        consumer.accept("Hello");
+        System.out.println("===========使用lambda替换===========");
+        Consumer<String> consumer1=s->{
+            System.out.println(s);
+        };
+        consumer1.accept("World");
+    }
+}
+```
+
+效果：
+
+![image-20210214130225140](images/image-20210214130225140.png)
+
+示例七：语法格式五: Lambda 需要两个或以上的参数，多条执行语句，并且可以有返回值
+
+```java
+package com.dreamcold.java8;
+
+import java.util.Comparator;
+
+public class LambdaTest06 {
+    public static void main(String[] args){
+        Comparator<Integer> com1=new Comparator<Integer>() {
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                System.out.println(o1);
+                System.out.println(o2);
+                return o1.compareTo(o2);
+            }
+        };
+        System.out.println(com1.compare(12,21));
+        System.out.println("========================");
+        Comparator<Integer> com2=(o1,o2)->{
+            System.out.println(o1);
+            System.out.println(o2);
+            return o1.compareTo(o2);
+        };
+        System.out.println(com2.compare(12,6));
+    }
+}
+```
+
+效果：
+
+![image-20210214130741434](images/image-20210214130741434.png)
+
+示例八：方法体只有一条语句时，return 与大括号若有，都可以省略。
+
+```java
+package com.dreamcold.java8;
+
+import java.util.Comparator;
+
+public class LamdaTest07 {
+    public static void main(String[] args) {
+        Comparator<Integer> com1=(o1,o2)->o1.compareTo(o2);
+        System.out.println(com1.compare(1,12));
+    }
+}
+```
 
 ## 函数式(Functional)接口
+
+### 什么是函数式接口？
+
+- 只包含一个抽象方法的接口，称为函数式接口。
+- 你可以通过Lambda表达式来创建该接口的对象。(若 Lambda表达式抛出一个受检异常(即:非运行时异常)，那么该异常需要在目标接口的抽象方法上进行声明)。
+- 我们可以在一个接口上使用@FunctionalInterface注解，这样做可以检查它是否是一个函数式接口。同时javadoc也会包含一条声明，说明这个
+- 接口是一个函数式接口。在java.util.function包下定义了Java 8的丰富的函数式接口
+  
+
+### Java内置的四大函数式接口
+
+![image-20210214131758476](images/image-20210214131758476.png)
+
+
 
 ## 方法引用与构造器引用
 

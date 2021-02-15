@@ -96,6 +96,7 @@
 #### 基础篇
 
 - [数据库介绍](./database/Mysql/数据库介绍.md)
+- [数据库的操作](./database/Mysql/数据库介绍.md)
 
 
 
