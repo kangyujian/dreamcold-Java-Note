@@ -96,13 +96,9 @@
 #### 基础篇
 
 - [数据库介绍](./database/Mysql/数据库介绍.md)
-- [数据库的操作](./database/Mysql/数据库介绍.md)
-
-
-
-
-
-
+- [数据库的操作](./database/Mysql/数据库的操作.md)
+- [DML语言](./database/Mysql/DML语言.md)
+- [DQL语言](./database/Mysql/DQL语言.md)
 
 ## 框架
 
