@@ -102,6 +102,9 @@
 - [Mysql常用函数](./database/Mysql/Mysql常用函数.md)
 - [事务和索引](./database/Mysql/事务和索引.md)
 - [权限及如何设计数据库](./database/Mysql/权限及如何设计数据库.md)
+- [数据库设计](./database/Mysql/数据库设计.md)
+
+
 
 ## 框架
 
