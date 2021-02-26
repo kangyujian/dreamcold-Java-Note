@@ -99,6 +99,9 @@
 - [数据库的操作](./database/Mysql/数据库的操作.md)
 - [DML语言](./database/Mysql/DML语言.md)
 - [DQL语言](./database/Mysql/DQL语言.md)
+- [Mysql常用函数](./database/Mysql/Mysql常用函数.md)
+- [事务和索引](./database/Mysql/事务和索引.md)
+- [权限及如何设计数据库](./database/Mysql/权限及如何设计数据库.md)
 
 ## 框架
 
