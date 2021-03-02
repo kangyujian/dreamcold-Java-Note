@@ -550,3 +550,217 @@ public class PreparedStatementUtil {
     - 获取列数：getColumnCount()
     - 获取列的别名：getColumnLabel()
     - 通过反射，创建指定类的对象，获取指定的属性并赋值
+
+
+
+## MySQL BLOB类型
+
+- MySQL中，BLOB是一个二进制大型对象，是一个可以存储大量数据的容器，它能容纳不同大小的数据。
+- 插入BLOB类型的数据必须使用PreparedStatement，因为BLOB类型的数据无法使用字符串拼接写的。
+- MySQL的四种BLOB类型(除了在存储的最大信息量上不同外，他们是等同的)
+
+<img src="images/image-20210301221937777.png" alt="image-20210301221937777" style="zoom:80%;" />
+
+- 实际使用中根据需要存入的数据大小定义不同的BLOB类型。
+
+- 需要注意的是：如果存储的文件过大，数据库的性能会下降。
+
+- 如果在指定了相关的Blob类型以后，还报错：xxx too large，那么在mysql的安装目录下，找my.ini文件加上如
+
+  下的配置参数： max_allowed_packet=16M。同时注意：修改了my.ini文件之后，需要重新启动mysql服务。
+
+### 向数据表中插入大数据类型
+
+```java
+package com.dreamcold.blob;
+
+import com.dreamcold.util.JDBCUtil;
+
+import java.io.FileInputStream;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.Date;
+
+public class Demo01 {
+    public static void main(String[] args){
+        try {
+            //获取连接
+            Connection conn= JDBCUtil.getConnection();
+            String sql="insert into customer(name,email,birth,photp) values(?,?,?,?)";
+            PreparedStatement ps=conn.prepareStatement(sql);
+            //填充占位符
+            ps.setString(1,"dreamcold");
+            ps.setString(2,"dreamcold@163.com");
+            ps.setDate(3,new Date(new java.util.Date().getTime()));
+            //操作Blob类型的变量
+            FileInputStream fis=new FileInputStream("dreamcold.png");
+            ps.execute();
+            fis.close();
+            JDBCUtil.close(conn,ps);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+### 修改数据表中的Blob类型字段
+
+```java
+package com.dreamcold.blob;
+
+import com.dreamcold.util.JDBCUtil;
+
+import java.io.FileInputStream;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+
+public class Demo02 {
+    public static void main(String[] args) {
+        try {
+            Connection conn= JDBCUtil.getConnection();
+            String sql="update customer set photo= ? where id =?";
+            PreparedStatement ps=conn.prepareStatement(sql);
+            //填充占位符
+            //操作Blob类型的变量
+            FileInputStream fis=new FileInputStream("coffe.png");
+//            ps.setBlob(1,fis);
+            ps.setInt(2,25);
+            ps.execute();
+            fis.close();
+            JDBCUtil.close(conn,ps);
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+### 从数据表中读取大数据类型
+
+```java
+package com.dreamcold.blob;
+
+import com.dreamcold.util.JDBCUtil;
+
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.sql.*;
+
+public class Demo03 {
+    public static void main(String[] args) {
+      try {
+          String sql="SELECT ID,NAME,EMAIL,BIRTH,PHOTO FROM CUSTOMER WHERE ID =?";
+          Connection conn= JDBCUtil.getConnection();
+          PreparedStatement ps=conn.prepareStatement(sql);
+          ps.setInt(1,8);
+          ResultSet rs=ps.executeQuery();
+          if (rs.next()){
+              Integer id=rs.getInt(1);
+              String name=rs.getString(2);
+              String email=rs.getString(3);
+              Date birth=rs.getDate(4);
+              Blob photo =rs.getBlob(5);
+              InputStream is=photo.getBinaryStream();
+              OutputStream os=new FileOutputStream("c.jpg");
+              byte[] buffer=new byte[1024];
+              int len;
+              while ((len=is.read(buffer))!=-1){
+                  os.write(buffer,0,len);
+              }
+              JDBCUtil.close(conn,ps);
+          }
+      }catch (Exception e){
+          e.printStackTrace();
+      }
+    }
+}
+```
+
+## 批量插入
+
+### 批量执行SQL语句
+
+当需要成批插入或者更新记录时，可以采用Java的批量更新机制，这一机制允许多条语句一次性提交给数据库批量处
+理。通常情况下比单独提交处理更有效率
+JDBC的批量处理语句包括下面三个方法：
+
+- addBatch(String)：添加需要批量处理的SQL语句或是参数；
+- executeBatch()：执行批量处理语句；
+- clearBatch():清空缓存的数据
+- 通常我们会遇到两种批量执行SQL语句的情况：
+  - 多条SQL语句的批量处理；
+  - 一个SQL语句的批量传参；
+
+### 高效的批量插入
+
+举例：向数据表中插入20000条数据
+数据库中提供一个goods表。创建如下：
+
+```sql
+CREATE TABLE GOODS(
+	ID INT PRIMARY KEY AUTO_INCREMENT,
+    NAME VARCHAR(20)
+);
+```
+
+####  实现层次一：使用Statement
+
+```java
+package com.dreamcold.batch;
+
+import com.dreamcold.util.JDBCUtil;
+
+import java.sql.Connection;
+import java.sql.Statement;
+
+public class Demo01 {
+    public static void main(String[] args) {
+        try {
+            Connection conn= JDBCUtil.getConnection();
+            Statement st=conn.createStatement();
+            for (int i = 0; i <=200000; i++) {
+                String sql="insert into goods(name) values('name_'+"+i+")";
+                st.executeUpdate(sql);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+#### 实现层次二：使用PreparedStatement
+
+```java
+package com.dreamcold.batch;
+
+import com.dreamcold.util.JDBCUtil;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+
+public class Demo02 {
+    public static void main(String[] args) {
+        try {
+            long start=System.currentTimeMillis();
+            Connection conn= JDBCUtil.getConnection();
+            String sql="insert into goods(name) values(?)";
+            PreparedStatement ps=conn.prepareStatement(sql);
+            for (int i=1;i<=2000;i++){
+                ps.setString(1,"name_"+i);
+                ps.executeUpdate();
+            }
+            long end=System.currentTimeMillis();
+            System.out.println("花费时间为："+(end-start));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+#### 实现层次三
+
