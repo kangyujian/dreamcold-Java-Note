@@ -48,7 +48,13 @@ JDBC接口（API）包括两个层次：
 > 补充：ODBC(Open Database Connectivity，开放式数据库连接)，是微软在Windows平台下推出的。使用
 > 者在程序中只需要调用ODBC API，由 ODBC 驱动程序将调用转换成为对特定的数据库的调用请求。
 
+### JDBC的优缺点
 
+JDBC的优点：
+ 直接底层操作，提供了很简单、便捷的访问数据库的方法，跨平台性比较强。灵活性比较强，可以写很复杂的SQL语句。
+JDBC的缺点：
+因为JAVA是面向对象的，JDBC没有做到使数据能够面向对象的编程，使程序员的思考仍停留在SQL语句上。
+操作比较繁琐，很多代码需要重复写很多次。
 
 ## 获取数据库连接
 
@@ -764,3 +770,120 @@ public class Demo02 {
 
 #### 实现层次三
 
+* 修改1： 使用 addBatch() / executeBatch() / clearBatch()
+* 修改2：mysql服务器默认是关闭批处理的，我们需要通过一个参数，让mysql开启批处理的支持。
+* rewriteBatchedStatements=true 写在配置文件的url后面
+* 修改3：使用更新的mysql 驱动：mysql-connector-java-5.1.37-bin.jar
+
+```sql
+package com.dreamcold.batch;
+
+import com.dreamcold.util.JDBCUtil;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+
+public class Demo03 {
+    public static void main(String[] args) {
+        Connection conn= null;
+        PreparedStatement ps=null;
+        long start=0;
+        try {
+            start=System.currentTimeMillis();
+            conn= JDBCUtil.getConnection();
+            String sql="insert into goods(name) values(?)";
+            ps=conn.prepareStatement(sql);
+            for (int i = 0; i < 1000000; i++) {
+                ps.setString(1,"name_"+i);
+                //攒sql
+                ps.addBatch();
+                if(i%500==0){
+                    //执行
+                    ps.executeBatch();
+                    //清空
+                    ps.clearBatch();;
+                }
+            }
+        }catch (Exception e){
+            
+        }
+        long end=System.currentTimeMillis();
+        System.out.println("cost time:"+(end-start));
+        JDBCUtil.close(conn,ps);
+    }
+}
+
+```
+
+#### 实现层次四
+
+层次四：在层次三的基础上操作
+
+* 使用Connection 的 setAutoCommit(false) / commit()
+
+```java
+package com.dreamcold.batch;
+
+import com.dreamcold.util.JDBCUtil;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+
+public class Demo04 {
+    public static void main(String[] args) {
+        Connection conn= null;
+        PreparedStatement ps=null;
+        long start=0;
+        try {
+            start=System.currentTimeMillis();
+            conn= JDBCUtil.getConnection();
+            //设置为不自动提交
+            conn.setAutoCommit(false);
+            String sql="insert into goods(name) values(?)";
+            ps=conn.prepareStatement(sql);
+            for (int i = 0; i < 1000000; i++) {
+                ps.setString(1,"name_"+i);
+                //攒sql
+                ps.addBatch();
+                if(i%500==0){
+                    //执行
+                    ps.executeBatch();
+                    //清空
+                    ps.clearBatch();;
+                }
+            }
+            conn.commit();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+       
+        long end=System.currentTimeMillis();
+        System.out.println("cost time:"+(end-start));
+        JDBCUtil.close(conn,ps);
+    }
+}
+```
+
+## 数据库事务
+
+- 事务：一组逻辑操作单元,使数据从一种状态变换到另一种状态。
+- 事务处理（事务操作）：保证所有事务都作为一个工作单元来执行，即使出现了故障，都不能改变这种执行方式。当在一个事务中执行多个操作时，要么所有的事务都被提交(commit)，那么这些修改就永久地保存下来；要么数据库管理系统将放弃所作的所有修改，整个事务回滚(rollback)到最初状态。
+- 为确保数据库中数据的一致性，数据的操纵应当是离散的成组的逻辑单元：当它全部完成时，数据的一致性可以保持，而当这个单元中的一部分操作失败，整个事务应全部视为错误，所有从起始点以后的操作应全部回退到开始状态。
+
+### JDBC的事务处理
+
+- 数据一旦提交，就不可回滚。
+- 数据什么时候意味着提交？
+  - 当一个连接对象被创建时，默认情况下是自动提交事务：每次执行一个 SQL 语句时，如果执行成功，就会
+    向数据库自动提交，而不能回滚。
+  - 关闭数据库连接，数据就会自动的提交。如果多个操作，每个操作使用的是自己单独的连接，则无法保证
+    事务。即同一个事务的多个操作必须在同一个连接下。
+
+- JDBC程序中为了让多个 SQL 语句作为一个事务执行：
+  - 调用 Connection 对象的 setAutoCommit(false); 以取消自动提交事务
+  - 在所有的 SQL 语句都成功执行后，调用 commit(); 方法提交事务
+  - 在出现异常时，调用 rollback(); 方法回滚事务
+- 若此时 Connection 没有被关闭，还可能被重复使用，则需要恢复其自动提交状态
+  - setAutoCommit(true)。尤其是在使用数据库连接池技术时，执行close()方法前，建议恢复自动提交状态。
+
+> 【案例：用户AA向用户BB转账100】
