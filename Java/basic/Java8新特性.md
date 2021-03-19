@@ -345,7 +345,449 @@ public class LamdaTest07 {
 
 ## 方法引用与构造器引用
 
+### 什么是方法引用
+
+所谓方法引用，是指如果某个方法签名和接口恰好一致，就可以直接传入方法引用。
+
+因为`Comparator<String>`接口定义的方法是`int compare(String, String)`，和静态方法`int cmp(String, String)`相比，除了方法名外，方法参数一致，返回类型相同，因此，我们说两者的方法签名一致，可以直接把方法名作为Lambda表达式传入：
+
+```java
+package com.dreamcold.java8;
+
+import java.util.Arrays;
+import java.util.Comparator;
+
+public class Demo06 {
+    public static void main(String[] args) {
+        String[] things={"hello","world","kangyujian"};
+        //原始的情况
+        Arrays.sort(things, new Comparator<String>() {
+            @Override
+            public int compare(String o1, String o2) {
+                return o1.compareTo(o2);
+            }
+        });
+        //lambda表达式的写法
+        Arrays.sort(things,(a,b)->{
+            return a.compareTo(b);
+        });
+        //引用类方法
+        Arrays.sort(things,Demo06::cmp);
+        //引用实例方法,String类中compareTo是实例方法，但是之所以可以传入是因为该实例方法包含了默认参数this
+        Arrays.sort(things,String::compareTo);
+
+    }
+
+    public static int cmp(String s1,String s2){
+        return s1.compareTo(s2);
+    }
+}
+```
+
+### 构造方法引用
+
+```java
+package com.dreamcold.java8;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+class Person {
+    String name;
+    public Person(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "name='" + name + '\'' +
+                '}';
+    }
+}
+
+public class Demo07 {
+    public static void main(String[] args) {
+        String[] names={"xiaoming","xiaohong","xiaoli"};
+        List<String> list = Arrays.asList(names);
+        List<Person> personList=list.stream().map(Person::new).collect(Collectors.toList());
+        for (int i = 0; i < personList.size() ;i++) {
+            System.out.println(personList.get(i));
+        }
+    }
+}
+```
+
+效果：
+
+![image-20210318191419202](images/image-20210318191419202.png)
+
+后面我们会讲到`Stream`的`map()`方法。现在我们看到，这里的`map()`需要传入的FunctionalInterface的定义是：
+
+```java
+@FunctionalInterface
+public interface Function<T, R> {
+    R apply(T t);
+}
+```
+
+把泛型对应上就是方法签名`Person apply(String)`，即传入参数`String`，返回类型`Person`。而`Person`类的构造方法恰好满足这个条件，因为构造方法的参数是`String`，而构造方法虽然没有`return`语句，但它会隐式地返回`this`实例，类型就是`Person`，因此，此处可以引用构造方法。构造方法的引用写法是`类名::new`，因此，此处传入`Person::new`。
+
 ## 强大的Stream API
 
+### 什么是Stream
+
+Java从8开始，不但引入了Lambda表达式，还引入了一个全新的流式API：Stream API。它位于`java.util.stream`包中。
+
+*划重点*：这个`Stream`不同于`java.io`的`InputStream`和`OutputStream`，它代表的是任意Java对象的序列。两者对比如下：
+
+|      | java.io                  | java.util.stream           |
+| :--- | :----------------------- | :------------------------- |
+| 存储 | 顺序读写的`byte`或`char` | 顺序输出的任意Java对象实例 |
+| 用途 | 序列化至文件或网络       | 内存计算／业务逻辑         |
+
+有同学会问：一个顺序输出的Java对象序列，不就是一个`List`容器吗？
+
+*再次划重点*：这个`Stream`和`List`也不一样，`List`存储的每个元素都是已经存储在内存中的某个Java对象，而`Stream`输出的元素可能并没有预先存储在内存中，而是实时计算出来的。
+
+换句话说，`List`的用途是操作一组已存在的Java对象，而`Stream`实现的是惰性计算，两者对比如下：
+
+|      | java.util.List           | java.util.stream     |
+| :--- | :----------------------- | :------------------- |
+| 元素 | 已分配并存储在内存       | 可能未分配，实时计算 |
+| 用途 | 操作一组已存在的Java对象 | 惰性计算             |
+
+我们总结一下`Stream`的特点：它可以“存储”有限个或无限个元素。这里的存储打了个引号，是因为元素有可能已经全部存储在内存中，也有可能是根据需要实时计算出来的。
+
+`Stream`的另一个特点是，一个`Stream`可以轻易地转换为另一个`Stream`，而不是修改原`Stream`本身。
+
+最后，真正的计算通常发生在最后结果的获取，也就是惰性计算。
+
+```java
+Stream<BigInteger> naturals = createNaturalStream(); // 不计算
+Stream<BigInteger> s2 = naturals.map(BigInteger::multiply); // 不计算
+Stream<BigInteger> s3 = s2.limit(100); // 不计算
+s3.forEach(System.out::println); // 计算
+```
+
+惰性计算的特点是：一个`Stream`转换为另一个`Stream`时，实际上只存储了转换规则，并没有任何计算发生。
+
+例如，创建一个全体自然数的`Stream`，不会进行计算，把它转换为上述`s2`这个`Stream`，也不会进行计算。再把`s2`这个无限`Stream`转换为`s3`这个有限的`Stream`，也不会进行计算。只有最后，调用`forEach`确实需要`Stream`输出的元素时，才进行计算。我们通常把`Stream`的操作写成链式操作，代码更简洁：
+
+```java
+createNaturalStream()
+    .map(BigInteger::multiply)
+    .limit(100)
+    .forEach(System.out::println);
+```
+
+因此，Stream API的基本用法就是：创建一个`Stream`，然后做若干次转换，最后调用一个求值方法获取真正计算的结果：
+
+```java
+int result = createNaturalStream() // 创建Stream
+             .filter(n -> n % 2 == 0) // 任意个转换
+             .map(n -> n * n) // 任意个转换
+             .limit(100) // 任意个转换
+             .sum(); // 最终计算结果
+```
+
+**小结**
+
+Stream API的特点是：
+
+- Stream API提供了一套新的流式处理的抽象序列；
+- Stream API支持函数式编程和链式操作；
+- Stream可以表示无限序列，并且大多数情况下是惰性求值的
+
+### 创建Stream
+
+#### Stream.of()
+
+创建`Stream`最简单的方式是直接用`Stream.of()`静态方法，传入可变参数即创建了一个能输出确定元素的`Stream`：
+
+```java
+package com.dreamcold.java8;
+
+import java.util.stream.Stream;
+
+public class Demo08 {
+    public static void main(String[] args) {
+        Stream<String> stringStream = Stream.of("a", "b", "c", "d", "e", "f");
+        stringStream.forEach(System.out::println);
+    }
+}
+```
+
+效果：
+
+<img src="images/image-20210318192225901.png" alt="image-20210318192225901" style="zoom:80%;" />
+
+#### 基于数组或Collection
+
+第二种创建`Stream`的方法是基于一个数组或者`Collection`，这样该`Stream`输出的元素就是数组或者`Collection`持有的元素：
+
+```java
+package com.dreamcold.java8;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class Demo09 {
+    public static void main(String[] args) {
+        List<String> strings = Arrays.stream(new String[]{"a", "b", "c"}).collect(Collectors.toList());
+        strings.stream().forEach(System.out::println);
+    }
+}
+```
+
+把数组变成`Stream`使用`Arrays.stream()`方法。对于`Collection`（`List`、`Set`、`Queue`等），直接调用`stream()`方法就可以获得`Stream`。
+
+上述创建`Stream`的方法都是把一个现有的序列变为`Stream`，它的元素是固定的。
+
+#### 基于Supplier
+
+创建`Stream`还可以通过`Stream.generate()`方法，它需要传入一个`Supplier`对象：
+
+```java
+Stream<String> s = Stream.generate(Supplier<String> sp);
+```
+
+基于`Supplier`创建的`Stream`会不断调用`Supplier.get()`方法来不断产生下一个元素，这种`Stream`保存的不是元素，而是算法，它可以用来表示无限序列。
+
+例如，我们编写一个能不断生成自然数的`Supplier`，它的代码非常简单，每次调用`get()`方法，就生成下一个自然数：
+
+```java
+package com.dreamcold.java8;
+
+import java.util.function.Supplier;
+import java.util.stream.Stream;
+
+class NatualSupplier implements Supplier{
+
+    Integer cnt=0;
+
+    @Override
+    public Object get() {
+        cnt++;
+        return cnt;
+    }
+}
+
+public class Demo10 {
+    public static void main(String[] args) {
+        Stream generate = Stream.generate(new NatualSupplier());
+        generate.limit(10).forEach(System.out::println);
+    }
+}
+```
+
+上述代码我们用一个`Supplier<Integer>`模拟了一个无限序列（当然受`int`范围限制不是真的无限大）。如果用`List`表示，即便在`int`范围内，也会占用巨大的内存，而`Stream`几乎不占用空间，因为每个元素都是实时计算出来的，用的时候再算。
+
+对于无限序列，如果直接调用`forEach()`或者`count()`这些最终求值操作，会进入死循环，因为永远无法计算完这个序列，所以正确的方法是先把无限序列变成有限序列，例如，用`limit()`方法可以截取前面若干个元素，这样就变成了一个有限序列，对这个有限序列调用`forEach()`或者`count()`操作就没有问题。
+
+
+
+#### 基于类型
+
+因为Java的范型不支持基本类型，所以我们无法用`Stream<int>`这样的类型，会发生编译错误。为了保存`int`，只能使用`Stream<Integer>`，但这样会产生频繁的装箱、拆箱操作。为了提高效率，Java标准库提供了`IntStream`、`LongStream`和`DoubleStream`这三种使用基本类型的`Stream`，它们的使用方法和范型`Stream`没有大的区别，设计这三个`Stream`的目的是提高运行效率：
+
+```java
+package com.dreamcold.java8;
+
+import java.util.Arrays;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
+
+public class Demo11 {
+    public static void main(String[] args) {
+        Stream<int[]> stream = Stream.of(new int[]{1, 2, 3, 4, 5});
+        IntStream stream1 = Arrays.stream(new int[]{1, 2, 3, 4, 5, 6});
+        stream1.forEach(System.out::println);
+        
+    }
+}
+```
+
+实现一个斐波那契数列:
+
+```java
+package com.dreamcold.java8;
+
+import java.util.function.Supplier;
+import java.util.stream.Stream;
+
+class FibSupplier implements Supplier{
+    int a=1;
+    int b=0;
+
+    @Override
+    public Object get() {
+        int temp=a+b;
+        b=a;
+        a=temp;
+        return b;
+    }
+}
+
+public class Demo12 {
+    public static void main(String[] args) {
+        Stream generate = Stream.generate(new FibSupplier());
+        generate.limit(10).forEach(System.out::println);
+
+    }
+}
+```
+
+效果：
+
+![image-20210319212132620](images/image-20210319212132620.png)、
+
+### Stream流的操作
+
+#### map操作
+
+`Stream.map()`是`Stream`最常用的一个转换方法，它把一个`Stream`转换为另一个`Stream`。
+
+所谓`map`操作，就是把一种操作运算，映射到一个序列的每一个元素上。例如，对`x`计算它的平方，可以使用函数`f(x) = x * x`。我们把这个函数映射到一个序列1，2，3，4，5上，就得到了另一个序列1，4，9，16，25：
+
+```ascii
+            f(x) = x * x
+
+                  │
+                  │
+  ┌───┬───┬───┬───┼───┬───┬───┬───┐
+  │   │   │   │   │   │   │   │   │
+  ▼   ▼   ▼   ▼   ▼   ▼   ▼   ▼   ▼
+
+[ 1   2   3   4   5   6   7   8   9 ]
+
+  │   │   │   │   │   │   │   │   │
+  │   │   │   │   │   │   │   │   │
+  ▼   ▼   ▼   ▼   ▼   ▼   ▼   ▼   ▼
+
+[ 1   4   9  16  25  36  49  64  81 ]
+```
+
+可见，`map`操作，把一个`Stream`的每个元素一一对应到应用了目标函数的结果上。
+
+```java
+Stream<Integer> s = Stream.of(1, 2, 3, 4, 5);
+Stream<Integer> s2 = s.map(n -> n * n);
+```
+
+如果我们查看`Stream`的源码，会发现`map()`方法接收的对象是`Function`接口对象，它定义了一个`apply()`方法，负责把一个`T`类型转换成`R`类型：
+
+```java
+<R> Stream<R> map(Function<? super T, ? extends R> mapper);
+```
+
+其中，`Function`的定义是：
+
+```java
+@FunctionalInterface
+public interface Function<T, R> {
+    // 将T类型转换为R:
+    R apply(T t);
+}
+```
+
+利用`map()`，不但能完成数学计算，对于字符串操作，以及任何Java对象都是非常有用的。例如：
+
+```java
+package com.dreamcold.java8;
+
+
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Stream;
+
+public class Demo13 {
+    public static void main(String[] args) {
+        String[] fruit={"  Apple ", " pear ", " ORANGE", " BaNaNa "};
+        Stream<String> stream = Arrays.stream(fruit);
+        stream.map((x)->{
+            return x.trim();
+        }).map((x)->{
+            return x.toLowerCase();
+        }).forEach(System.out::println);
+        
+    }
+
+
+}
+```
+
+#### filter操作
+
+`Stream.filter()`是`Stream`的另一个常用转换方法。
+
+所谓`filter()`操作，就是对一个`Stream`的所有元素一一进行测试，不满足条件的就被“滤掉”了，剩下的满足条件的元素就构成了一个新的`Stream`。
+
+例如，我们对1，2，3，4，5这个`Stream`调用`filter()`，传入的测试函数`f(x) = x % 2 != 0`用来判断元素是否是奇数，这样就过滤掉偶数，只剩下奇数，因此我们得到了另一个序列1，3，5：
+
+```ascii
+            f(x) = x % 2 != 0
+
+                  │
+                  │
+  ┌───┬───┬───┬───┼───┬───┬───┬───┐
+  │   │   │   │   │   │   │   │   │
+  ▼   ▼   ▼   ▼   ▼   ▼   ▼   ▼   ▼
+
+[ 1   2   3   4   5   6   7   8   9 ]
+
+  │   X   │   X   │   X   │   X   │
+  │       │       │       │       │
+  ▼       ▼       ▼       ▼       ▼
+
+[ 1       3       5       7       9 ]
+```
+
+用IntStream写出上述逻辑，代码如下：
+
+```java
+package com.dreamcold.java8;
+
+import java.util.stream.IntStream;
+
+public class Demo14 {
+    public static void main(String[] args) {
+        IntStream.of(1,2,3,4,5,6,7,8,9).
+                filter((x)->{return x%2==0;}).
+                forEach(System.out::println);
+    }
+}
+```
+
+#### reduce
+
+```java
+package com.dreamcold.java8;
+
+import java.util.stream.Stream;
+
+public class Demo15 {
+    public static void main(String[] args) {
+        int sum= Stream.of(1,2,3,4,5,6,7,8,9).reduce(0,(acc,n)->acc+n);
+        System.out.println(sum);
+    }
+}
+```
+
+效果：
+
+![image-20210319223023163](images/image-20210319223023163.png)
+
+**注意：**
+
+`reduce()`方法将一个`Stream`的每个元素依次作用于`BinaryOperator`，并将结果合并。
+
+`reduce()`是聚合方法，聚合方法会立刻对`Stream`进行计算。
+
 ## Optional类
+
+
 

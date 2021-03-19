@@ -887,3 +887,140 @@ public class Demo04 {
   - setAutoCommit(true)。尤其是在使用数据库连接池技术时，执行close()方法前，建议恢复自动提交状态。
 
 > 【案例：用户AA向用户BB转账100】
+
+```java
+public void testJDBCTransaction() {
+Connection conn = null;
+try {
+    // 1.获取数据库连接
+    conn = JDBCUtils.getConnection();
+    // 2.开启事务
+    conn.setAutoCommit(false);
+    // 3.进行数据库操作
+    String sql1 = "update user_table set balance = balance - 100 where user = ?";
+    update(conn, sql1, "AA");
+    // 模拟网络异常
+    //System.out.println(10 / 0);
+    String sql2 = "update user_table set balance = balance + 100 where user = ?";
+    update(conn, sql2, "BB");
+    // 4.若没有异常，则提交事务
+    conn.commit();
+    } 
+    catch (Exception e) {
+        e.printStackTrace();
+        // 5.若有异常，则回滚事务
+        try {
+        conn.rollback();
+        } catch (SQLException e1) {
+        e1.printStackTrace();
+        }
+     } finally {
+        try {
+        //6.恢复每次DML操作的自动提交功能
+        conn.setAutoCommit(true);
+        } catch (SQLException e) {
+        e.printStackTrace();
+        }
+        //7.关闭连接
+   	 JDBCUtils.closeResource(conn, null, null);
+     } 
+}
+```
+
+其中，对数据库操作的方法为：
+
+```java
+//使用事务以后的通用的增删改操作（version 2.0）
+public void update(Connection conn ,String sql, Object... args) {
+    PreparedStatement ps = null;
+    try {
+    // 1.获取PreparedStatement的实例 (或：预编译sql语句)
+    ps = conn.prepareStatement(sql);
+    // 2.填充占位符
+    for (int i = 0; i < args.length; i++) {
+    	ps.setObject(i + 1, args[i]);
+    }
+        // 3.执行sql语句
+        ps.execute();
+    } catch (Exception e) {
+    	e.printStackTrace();
+    } finally {
+    // 4.关闭资源
+   	 JDBCUtils.closeResource(null, ps);
+    }
+}
+```
+
+### 事务的ACID属性
+
+1. 原子性（Atomicity） 原子性是指事务是一个不可分割的工作单位，事务中的操作要么都发生，要么都不发
+生。
+2. 一致性（Consistency） 事务必须使数据库从一个一致性状态变换到另外一个一致性状态。
+3. 隔离性（Isolation） 事务的隔离性是指一个事务的执行不能被其他事务干扰，即一个事务内部的操作及使用的
+数据对并发的其他事务是隔离的，并发执行的各个事务之间不能互相干扰。
+4. 持久性（Durability） 持久性是指一个事务一旦被提交，它对数据库中数据的改变就是永久性的，接下来的其
+他操作和数据库故障不应该对其有任何影响。
+
+### 数据库的并发问题
+
+- 对于同时运行的多个事务, 当这些事务访问数据库中相同的数据时, 如果没有采取必要的隔离机制, 就会导致各种
+  并发问题:
+  - 脏读: 对于两个事务 T1, T2, T1 读取了已经被 T2 更新但还没有被提交的字段。之后, 若 T2 回滚, T1读取的
+    内容就是临时且无效的。
+  - 不可重复读: 对于两个事务T1, T2, T1 读取了一个字段, 然后 T2 更新了该字段。之后, T1再次读取同一个字
+    段, 值就不同了。
+  - 幻读: 对于两个事务T1, T2, T1 从一个表中读取了一个字段, 然后 T2 在该表中插入了一些新的行。之后, 如
+    果 T1 再次读取同一个表, 就会多出几行。
+
+- 数据库事务的隔离性: 数据库系统必须具有隔离并发运行各个事务的能力, 使它们不会相互影响, 避免各种并发问
+  题。
+- 一个事务与其他事务隔离的程度称为隔离级别。数据库规定了多种事务隔离级别, 不同隔离级别对应不同的干扰
+  程度, 隔离级别越高, 数据一致性就越好, 但并发性越弱
+
+### 四种隔离级别
+数据库提供的4种事务隔离级别：
+
+![image-20210306154008872](images/image-20210306154008872.png)
+
+Oracle 支持的 2 种事务隔离级别：READ COMMITED, SERIALIZABLE。 Oracle 默认的事务隔离级别为: READ
+COMMITED 。
+Mysql 支持 4 种事务隔离级别。Mysql 默认的事务隔离级别为: **REPEATABLE READ。**
+
+### 在MySql中设置隔离级别
+
+每启动一个 mysql 程序, 就会获得一个单独的数据库连接. 每个数据库连接都有一个全局变量 @@tx_isolation,
+表示当前的事务隔离级别。
+
+- 查看当前的隔离级别:
+
+```sql
+SELECT @@tx_isolation; 
+```
+
+- 设置当前 mySQL 连接的隔离级别:
+
+```sql
+set  transaction isolation level read committed; 
+```
+
+- 设置数据库系统的全局的隔离级别:
+
+```sql
+set global transaction isolation level read committed; 
+```
+
+- 补充操作：
+  - 创建mysql数据库用户：
+
+```sql
+create user tom identified by 'abc123'; 
+```
+  - 授予权限
+
+```sql
+-- 授予通过网络方式登录的tom用户，对所有库所有表的全部权限，密码设为abc123.
+grant all privileges on *.* to tom@'%' identified by 'abc123';
+-- 给tom用户使用本地命令行方式，授予atguigudb这个库下的所有表的插删改查的权限。
+grant select,insert,delete,update on atguigudb.* to tom@localhost identified by 'abc123';
+```
+
