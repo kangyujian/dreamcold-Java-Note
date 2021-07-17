@@ -40,19 +40,19 @@ github地址：https://github.com/spring-projects/spring-framework
 4. 支持事务的处理，对框架进行整合!
 
 
-==总结一句话：Spring就是一个轻量级的控制反转(IOC)和面向切面编程(AOP)的框架!==
+总结一句话：Spring就是一个轻量级的控制反转(IOC)和面向切面编程(AOP)的框架!
 
 
 ## 组成
 
-![](images/2020-09-01-11-59-43.png)
+![](https://gitee.com/kangyujian/notebook-images/raw/master/images/2020-09-01-11-59-43.png)
 
 
 ## 扩展
 
 在Spring的官网有这个介绍：现代化的Java开发，说白了就是基于Spring的开发。
 
-![](images/2020-09-01-12-02-50.png)
+![](https://gitee.com/kangyujian/notebook-images/raw/master/images/2020-09-01-12-02-50.png)
 
 - SpringBoot 
     - 是一个快速开发的脚手架，通过Springboot可以开发出一个单个的微服务

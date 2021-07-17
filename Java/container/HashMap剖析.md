@@ -2,7 +2,7 @@
 
 ## Map接口
 
-![image-20201223223105667](images/image-20201223223105667.png)
+![image-20201223223105667](https://gitee.com/kangyujian/notebook-images/raw/master/images/image-20201223223105667.png)
 
 - Map是双列数据，存储key-value对的数据，类似于高中的y=f(x)
 - HashMap是Map的最主要的实现类，线程不安全，效率高，可以存储null的key和value
@@ -21,7 +21,7 @@
 
 ## Map结构的理解
 
-<img src="images/image-20201224200624886.png" alt="image-20201224200624886" style="zoom:80%;" />
+<img src="https://gitee.com/kangyujian/notebook-images/raw/master/images/image-20201224200624886.png" alt="image-20201224200624886" style="zoom:80%;" />
 
 - Map中的key是无序的、不可重复的，使用Set存储所有的key，**key所在的类要重写hashCode()和equals()方法**（HashMap为例）
 - Map中的value是无序的、可重复的，使用Collection存储所有的value，**value所在的类要重写equals()**
@@ -87,7 +87,7 @@ map.put(key1,value1);
 
  jdk1.7的HashMap采用数组+单链表实现，尽管定义了hash函数来避免冲突，但因为数组长度有限，还是会出现两个不同的Key经过计算后在数组中的位置一样，1.7版本中采用了链表来解决。
 
-<img src="images/image-20201225114735659.png" alt="image-20201225114735659" style="zoom:80%;" />
+<img src="https://gitee.com/kangyujian/notebook-images/raw/master/images/image-20201225114735659.png" alt="image-20201225114735659" style="zoom:80%;" />
 
 从上面的简易示图中也能发现，如果位于链表中的结点过多，那么很显然通过key值依次查找效率太低，所以**在1.8中对其进行了改良，采用数组+链表+红黑树来实现，当链表长度超过阈值8时，将链表转换为红黑树.**
 
@@ -371,11 +371,11 @@ final int hash(Object k) {
 
  我们通过下面的例子来说明对于key的hashCode进行扰动处理的重要性，我们现在想向一个map中put一个Key-Value对，Key的值为“fsmly”，不进行任何的扰动处理知识单纯的经过简单的获取hashcode后，得到的值为“**0000_0000_0011_0110_0100_0100_1001_0010**”，如果当前map的中的table数组长度为16，最终得到的index结果值为10。由于15的二进制扩展到32位为“00000000000000000000000000001111”，所以，一个数字在和他进行按位与操作的时候，前28位无论是什么，计算结果都一样（因为0和任何数做与，结果都为0，那这样的话一个put的Entry结点就太过依赖于key的hashCode的低位值，产生冲突的概率也会大大增加）。如下图所示
 
-<img src="images/image-20201225124224815.png" alt="image-20201225124224815" style="zoom:80%;" />
+<img src="https://gitee.com/kangyujian/notebook-images/raw/master/images/image-20201225124224815.png" alt="image-20201225124224815" style="zoom:80%;" />
 
  因为map的数组长度是有限的，这样冲突概率大的方法是不适合使用的，所以需要对hashCode进行扰动处理降低冲突概率，而JDK7中对于这个处理使用了四次位运算，还是通过下面的简单例子看一下这个过程.可以看到，刚刚不进行扰动处理的hashCode在进行处理后就没有产生hash冲突了。
 
-<img src="images/image-20201225124339196.png" alt="image-20201225124339196" style="zoom:80%;" />
+<img src="https://gitee.com/kangyujian/notebook-images/raw/master/images/image-20201225124339196.png" alt="image-20201225124339196" style="zoom:80%;" />
 
 总结一下：我们会首先计算传入的key的hash值然后通过下面的indexFor方法确定在table中的位置，具体实现就是通过一个计算出来的hash值和length-1做位运算，那么对于2^n来说，长度减一转换成二进制之后就是低位全一（长度16，len-1=15,二进制就是1111）。上面四次扰动的这种设定的好处就是，对于得到的hashCode的每一位都会影响到我们索引位置的确定，其目的就是为了能让数据更好的散列到不同的桶中，降低hash冲突的发生。关于Java集合中存在hash方法的更多原理和细节，请参考这篇[hash()方法分析](https://www.hollischuang.com/archives/2091)
 
@@ -552,7 +552,7 @@ void transfer(Entry[] newTable, boolean rehash) {
 
  这个方法的主要部分就是，在重新计算hash之后对于原链表和新table中的链表结构的差异，我们通过下面这个简单的图理解一下，假设原table中位置为4处为一个链表entry1->entry2->entry3,三个结点在新数组中的下标计算还是4，那么这个流程大概如下图所示
 
-<img src="images/image-20201225162106279.png" alt="image-20201225162106279" style="zoom:80%;" />
+<img src="https://gitee.com/kangyujian/notebook-images/raw/master/images/image-20201225162106279.png" alt="image-20201225162106279" style="zoom:80%;" />
 
 #### (3)resize扩容方法总结
 
@@ -643,15 +643,15 @@ e = next;
 
  (1)resize之前，假设table长度为2,假设现在再添加一个entry4，就需要扩容了
 
-![image-20201225162533123](images/image-20201225162533123.png)
+![image-20201225162533123](https://gitee.com/kangyujian/notebook-images/raw/master/images/image-20201225162533123.png)
 
  (2)假设现在thread1执行到了 **Entry<K,V> next = e.next;**这行代码处，那么根据上面几行代码，我们简单做个注释
 
-<img src="images/image-20201225162607930.png" alt="image-20201225162607930" style="zoom:80%;" />
+<img src="https://gitee.com/kangyujian/notebook-images/raw/master/images/image-20201225162607930.png" alt="image-20201225162607930" style="zoom:80%;" />
 
  (3)然后由于线程调度轮到thread2执行，假设thread2执行完transfer方法（假设entry3和entry4在扩容后到了如下图所示的位置，这里我们主要关注entry1和entry2两个结点），那么得到的结果为
 
-<img src="images/image-20201225162638155.png" alt="image-20201225162638155" style="zoom:80%;" />
+<img src="https://gitee.com/kangyujian/notebook-images/raw/master/images/image-20201225162638155.png" alt="image-20201225162638155" style="zoom:80%;" />
 
 (4)此时thread1被调度继续执行，将entry1插入到新数组中去，然后e为Entry2，轮到下次循环时next由于Thread2的操作变为了Entry1
 
@@ -661,15 +661,15 @@ e = next;
 
 如下图所示
 
-<img src="images/image-20201225162704914.png" alt="image-20201225162704914" style="zoom:80%;" />
+<img src="https://gitee.com/kangyujian/notebook-images/raw/master/images/image-20201225162704914.png" alt="image-20201225162704914" style="zoom:80%;" />
 
  (5)thread1继续执行，将entry2拿下来，放在newTable[1]这个桶的第一个位置，然后移动e和next
 
-<img src="images/image-20201225162729280.png" alt="image-20201225162729280" style="zoom:80%;" />
+<img src="https://gitee.com/kangyujian/notebook-images/raw/master/images/image-20201225162729280.png" alt="image-20201225162729280" style="zoom:80%;" />
 
 （6）**e.next = newTable[1] 导致 entry1.next 指向了 entry2**,也要注意，**此时的entry2.next 已经指向了entry1(thread2执行的结果就是entry2->entry1,看上面的thread2执行完的示意图)， 环形链表就这样出现了。**
 
-<img src="images/image-20201225162800905.png" alt="image-20201225162800905" style="zoom:80%;" />
+<img src="https://gitee.com/kangyujian/notebook-images/raw/master/images/image-20201225162800905.png" alt="image-20201225162800905" style="zoom:80%;" />
 
 ## HashMap1.8源代码阅读
 
@@ -679,11 +679,11 @@ e = next;
 
 　如果我们要查找这两个集合中的某个元素，通常是通过遍历整个集合，需要**O(N)**的时间级。
 
-<img src="images/image-20201225171237151.png" alt="image-20201225171237151" style="zoom:67%;" />
+<img src="https://gitee.com/kangyujian/notebook-images/raw/master/images/image-20201225171237151.png" alt="image-20201225171237151" style="zoom:67%;" />
 
 如果是哈希表，它是通过把关键码值映射到表中一个位置来访问记录，以加快查找的速度。这个映射函数叫做**散列函数**，存放记录的数组叫做**散列表，**只需要**O(1)**的时间级。
 
-<img src="images/image-20201225171312912.png" alt="image-20201225171312912" style="zoom:67%;" />
+<img src="https://gitee.com/kangyujian/notebook-images/raw/master/images/image-20201225171312912.png" alt="image-20201225171312912" style="zoom:67%;" />
 
 ①、存放在哈希表中的数据是key-value 键值对，比如存放哈希表的数据为:
 
@@ -715,7 +715,7 @@ e = next;
 
 　　第二种是**链地址法**，我们可以将字典的每一页都看成是一个子数组或者子链表，当遇到冲突了，直接往当前页码的子数组或者子链表里面填充即可。那么我们进行同音字查找的时候，可能需要遍历其子数组或者子链表。如下图所示：
 
-<img src="images/image-20201225171520406.png" alt="image-20201225171520406" style="zoom:80%;" />
+<img src="https://gitee.com/kangyujian/notebook-images/raw/master/images/image-20201225171520406.png" alt="image-20201225171520406" style="zoom:80%;" />
 
 对于开放地址法，可能会遇到二次冲突，三次冲突，所以需要良好的散列函数，分布的越均匀越好。对于链地址法，虽然不会造成二次冲突，但是如果一次冲突很多，那么会造成子数组或者子链表很长，那么我们查找所需遍历的时间也会很长。
 
@@ -723,7 +723,7 @@ e = next;
 
 　听名字就知道，HashMap 是一个利用哈希表原理来存储元素的集合。遇到冲突时，HashMap 是采用的链地址法来解决，在 JDK1.7 中，HashMap 是由 数组+链表构成的。但是在 JDK1.8 中，HashMap 是由 数组+链表+红黑树构成，新增了红黑树作为底层数据结构，结构变得复杂了，但是效率也变的更高效。下面我们来具体介绍在 JDK1.8 中 HashMap 是如何实现的。
 
-<img src="images/image-20201225171744597.png" alt="image-20201225171744597" style="zoom:80%;" />
+<img src="https://gitee.com/kangyujian/notebook-images/raw/master/images/image-20201225171744597.png" alt="image-20201225171744597" style="zoom:80%;" />
 
 ### HashMap的定义
 
@@ -734,7 +734,7 @@ public class HashMap<K,V> extends AbstractMap<K,V>
      implements Map<K,V>, Cloneable, Serializable {
 ```
 
-<img src="images/image-20201225171934802.png" alt="image-20201225171934802" style="zoom:80%;" />
+<img src="https://gitee.com/kangyujian/notebook-images/raw/master/images/image-20201225171934802.png" alt="image-20201225171934802" style="zoom:80%;" />
 
 　首先该类实现了一个 Map 接口，该接口定义了一组键值对映射通用的操作。储存一组成对的键-值对象，提供key（键）到value（值）的映射，Map中的key不要求有序，不允许重复。value同样不要求有序，但可以重复。但是我们发现该接口方法有很多，我们设计某个键值对的集合有时候并不像实现那么多方法，那该怎么办？
 
@@ -912,7 +912,7 @@ static final int hash(Object key) {
 
 　　下面举例说明下，n为table的长度：
 
-<img src="images/image-20201225173145381.png" alt="image-20201225173145381" style="zoom:80%;" />
+<img src="https://gitee.com/kangyujian/notebook-images/raw/master/images/image-20201225173145381.png" alt="image-20201225173145381" style="zoom:80%;" />
 
 ### 添加元素
 
@@ -1151,7 +1151,7 @@ final Node<K,V>[] resize() {
 
 该方法分为两部分，首先是计算新桶数组的容量 newCap 和新阈值 newThr，然后将原集合的元素重新映射到新集合中。
 
-<img src="images/image-20201225173759781.png" alt="image-20201225173759781" style="zoom:80%;" />
+<img src="https://gitee.com/kangyujian/notebook-images/raw/master/images/image-20201225173759781.png" alt="image-20201225173759781" style="zoom:80%;" />
 
 相比于JDK1.7，1.8使用的是2次幂的扩展(指长度扩为原来2倍)，所以，元素的位置要么是在原位置，要么是在原位置再移动2次幂的位置。我们在扩充HashMap的时候，不需要像JDK1.7的实现那样重新计算hash，只需要看看原来的hash值新增的那个bit是1还是0就好了，是0的话索引没变，是1的话索引变成“原索引+oldCap”。
 

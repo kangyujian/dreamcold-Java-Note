@@ -4,7 +4,7 @@
 AOP(Aspect Oriented Programming)翻译为面向切面编程，通过预编译方式和运行期间动态代理实现程序功能的统一维护的一种技术。AOP是OOP的延续，是软件开发中的一个热点，也是Spring框架中的一个重要内容，是函数式编程的一种衍生泛型，利用AOP可以对业务逻辑的各个部分进行隔离，从而使得业务逻辑之间的耦合度降低，提高程序的可重用行，同时提高开发效率。
 
 
-![](images/2020-10-03-14-41-24.png)
+![](https://gitee.com/kangyujian/notebook-images/raw/master/images/2020-10-03-14-41-24.png)
 
 1. 我们的核心业务逻辑就是耕山改查
 2. 但是公司现在要加入日志的功能
@@ -23,11 +23,11 @@ AOP(Aspect Oriented Programming)翻译为面向切面编程，通过预编译方
 - 切入点(PointCut):切面通知执行的地点的定义(在哪里执行)
 - 连接点(JoinPoint):与切入点匹配的执行点
 
-![](images/2020-10-03-14-54-26.png)
+![](https://gitee.com/kangyujian/notebook-images/raw/master/images/2020-10-03-14-54-26.png)
 
 在SpringAOP中，通过Advice定义横切逻辑，Spring中支持5种类型的Advice
 
-![](images/2020-10-03-14-55-46.png)
+![](https://gitee.com/kangyujian/notebook-images/raw/master/images/2020-10-03-14-55-46.png)
 
 1. 前置通知：在前面加一个方法
 2. 后置通知：在后面加一个方法
@@ -197,7 +197,7 @@ public class MyTest {
 
 ```
 
-![](images/2020-10-09-13-41-53.png)
+![](https://gitee.com/kangyujian/notebook-images/raw/master/images/2020-10-09-13-41-53.png)
 
 Aop的重要性：很重要，一定要理解其中的思路，主要是思想的理解这一块.
 
@@ -281,7 +281,7 @@ public class MyTest {
 
 ```
 
-![](images/2020-10-09-14-02-52.png)
+![](https://gitee.com/kangyujian/notebook-images/raw/master/images/2020-10-09-14-02-52.png)
 
 
 ### 第三种方式:使用注解方式实现AOP
@@ -361,9 +361,10 @@ public class MyTest {
 
 ```
 
-![](images/2020-10-09-14-16-06.png)
+![](https://gitee.com/kangyujian/notebook-images/raw/master/images/2020-10-09-14-16-06.png)
 
 
 通过aop命名空间的<aop:aspectj-autoproxy />声明自动为spring容器中那些配置@aspectJ切面的bean创建代理，织入切面。当然，spring 在内部依旧采用AnnotationAwareAspectJAutoProxyCreator进行自动代理的创建工作，但具体实现的细节已经被<aop:aspectj-autoproxy />隐藏起来了
 
 <aop:aspectj-autoproxy />有一个proxy-target-class属性，默认为false，表示使用jdk动态代理织入增强，当配为<aop:aspectj-autoproxy  poxy-target-class="true"/>时，表示使用CGLib动态代理技术织入增强。不过即使proxy-target-class设置为false，如果目标类没有声明接口，则spring将自动使用CGLib动态代理。
+

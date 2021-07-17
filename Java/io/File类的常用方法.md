@@ -78,7 +78,7 @@ public static final String separator//根据操作系统，动态的提供分隔
     路径下。
 
 - File 类的删除功能
-  - public boolean deletel):删除文件或者文件夹
+  - public boolean deletel():删除文件或者文件夹
   - 删除注意事项:
     - Java中的删除不走回收站。
     - 要删除-一个文件目录，请注意该文件目录内不能包含文件或者文件目录

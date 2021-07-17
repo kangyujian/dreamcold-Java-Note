@@ -1,0 +1,119 @@
+# SpringMVC处理请求流程
+
+## SpringMVC处理请求的流程
+
+<img src="https://gitee.com/kangyujian/notebook-images/raw/master/images/image-20210701135857599.png" alt="image-20210701135857599" style="zoom:80%;" />
+
+- 发起some.do请求
+- tomcat (web.xml--url-pattern知道。*.do的请求给DispatcherServlet)
+- DispatcherServlet. (根据springmvc.xml配置知道some.do---doSone() )
+- DispatcherServlet把some.do转发给MyController中的doSome()方法
+- 框架执行dosome()把得到ModelAndView进行处理，转发到show.jsp
+
+## SpringMVC执行过程
+
+1. tomcat启动，创建容器的过程通过load-on-start标签指定的1,创建Disaptcherservlet对象，DisaptcherServlet它的父类是继承HttpServlet的，它是一个serlvet,在被创建时，会执行init ()方法在init ()方法中
+
+```java
+//创建容器，读取配置文件
+WebApplicationContext ctx=new ClassPathxmlApplicationContext (" springmvc.xml");
+//把容器对象放入到ServletContext中
+getServletContext().setAttribute (key, ctx) :
+```
+
+上面创建容器作用:创建`@Controller` 注解所在的类的对象，创建MyController对象，这个对象放入到springmvc的容 器中，容 器是hap，类似`map.put ("myController ,MyController对象)`
+
+2. 请求的处理过程
+   1)执行servlet的service()
+
+```java
+proteoted void service (HttpServletRequest request， HttpServletRe sponse response)
+proteoted vold doservice (HttpservletRequst request, HttpservletResponse re sponse)
+Dispatcherservlet. doDispatch(request，response) {
+    调用MyController的.doSome()方法;
+}
+```
+
+## 配置视图解析器
+
+1. 当我们访问`http://localhost:8080/ch0_hello_springmvc_war/`的时候，可以仅仅希望通过点击跳转到some.do页面
+
+<img src="https://gitee.com/kangyujian/notebook-images/raw/master/images/image-20210701142725970.png" alt="image-20210701142725970" style="zoom:50%;" />
+
+<img src="https://gitee.com/kangyujian/notebook-images/raw/master/images/image-20210701142947374.png" alt="image-20210701142947374" style="zoom:50%;" />
+
+2. show.jsp放在webapp下,该目录下用户都可以访问该页面
+
+<img src="https://gitee.com/kangyujian/notebook-images/raw/master/images/image-20210701143130592.png" alt="image-20210701143130592" style="zoom:50%;" />
+
+3. 将show.jsp移动到`WEB-INF\view`下，因为在`WEB-INF`下的jsp页面用户都没有权限进行访问
+
+<img src="https://gitee.com/kangyujian/notebook-images/raw/master/images/image-20210701143916507.png" alt="image-20210701143916507" style="zoom:50%;" />
+
+4. 按照路径访问该地址`http://localhost:8080/ch0_hello_springmvc_war/WEB-INF/view/show.jsp`发现是`404`页面
+
+<img src="https://gitee.com/kangyujian/notebook-images/raw/master/images/image-20210701144020482.png" alt="image-20210701144020482" style="zoom:50%;" />
+
+5. 在`MyController`中修改视图的位置
+
+```java
+    @RequestMapping(value = "/some.do")
+    public ModelAndView doSome(){
+        //处理some.do请求了。相 当于service调用处理完成
+        ModelAndView mv=new ModelAndView();
+        //添加数据，框架在请求的最后把数据放入到request作用域。
+        //request . setAttribute("msg" , "欢迎使用springmvc做web开发");
+        mv.addObject("msg","欢迎使用springmvc做web开发！");
+        mv.addObject("fun","指定的是doSome方法");
+        //指定视图，指定视图的完整路径
+        //框架对视图执行的forward操作，request. getRequestDi spather("/show . jsp). forward(...)
+        mv.setViewName("WEB-INF/view/show.jsp");
+        return mv;
+    }
+```
+
+6. 测试正常情况下可以访问的到
+
+<img src="https://gitee.com/kangyujian/notebook-images/raw/master/images/image-20210701144651595.png" alt="image-20210701144651595" style="zoom:50%;" />
+
+<img src="https://gitee.com/kangyujian/notebook-images/raw/master/images/image-20210701144713768.png" alt="image-20210701144713768" style="zoom:50%;" />
+
+7. 我们发现视图的路径比较长，而且比较冗余，我们可以在`springmvc.xml`配置相应的视图解析器
+
+```xml
+      <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+            <!--前缀：视图文件的路径-->
+            <property name="prefix" value="WEB-INF/view/"></property>
+            <!--后缀：视图文件的扩展名-->
+            <property name="suffix" value=".jsp"></property>
+        </bean>
+```
+
+8. 修改`MyController`中绑定的视图
+
+```java
+@RequestMapping(value = "/some.do")
+    public ModelAndView doSome(){
+        //处理some.do请求了。相 当于service调用处理完成
+        ModelAndView mv=new ModelAndView();
+        //添加数据，框架在请求的最后把数据放入到request作用域。
+        //request . setAttribute("msg" , "欢迎使用springmvc做web开发");
+        mv.addObject("msg","欢迎使用springmvc做web开发！");
+        mv.addObject("fun","指定的是doSome方法");
+        //指定视图，指定视图的完整路径
+        //框架对视图执行的forward操作，request. getRequestDi spather("/show . jsp). forward(...)
+        mv.setViewName("show");
+        return mv;
+    }
+```
+
+9. 实际的效果
+
+<img src="https://gitee.com/kangyujian/notebook-images/raw/master/images/image-20210701154348918.png" alt="image-20210701154348918" style="zoom:50%;" />
+
+<img src="https://gitee.com/kangyujian/notebook-images/raw/master/images/image-20210701154424685.png" alt="image-20210701154424685" style="zoom:50%;" />
+
+10. 一个controller中可以有多个方法处理不同的请求，其中一个方法也可以处理多种请求
+
+
+

@@ -6,7 +6,7 @@ Java NIO (New IO，Non-Blocking 10)是从Java 1.4版本开始引入的一-套新
 
 - Java API中提供了两套NIO，一套是针对标准输入输出NIO，另一套就是网收地织NIO
 
-![image-20210119171122604](images/image-20210119171122604.png)
+![image-20210119171122604](https://gitee.com/kangyujian/notebook-images/raw/master/images/image-20210119171122604.png)
 
 ## NIO2
 
@@ -19,4 +19,4 @@ Java NIO (New IO，Non-Blocking 10)是从Java 1.4版本开始引入的一-套新
 - 早期的Java只提供了一个File类来访问文件系统，但File 类的功能比较有限，提供的方法性能也不高。而且，大多数方法在出错时仅返回失败，并不会提供异常信息。
 - NIO.2为了弥补这种不足，引入了Path接口， 代表-一个平台无关的平台路径，描述了目录结构中文件的位置。Path可以看成是File类的升级版本，实际引用的资源也可以不存在。
 
-![image-20210119171340059](images/image-20210119171340059.png)
+![image-20210119171340059](https://gitee.com/kangyujian/notebook-images/raw/master/images/image-20210119171340059.png)

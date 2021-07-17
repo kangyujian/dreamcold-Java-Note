@@ -197,13 +197,13 @@ public class MyTest {
 
 **项目结构**
 
-![](images/2020-09-01-12-59-59.png)
+![](https://gitee.com/kangyujian/notebook-images/raw/master/images/2020-09-01-12-59-59.png)
 
 
 
 ## IOC的本质
 
-![](images/2020-09-01-12-59-04.png)
+![](https://gitee.com/kangyujian/notebook-images/raw/master/images/2020-09-01-12-59-04.png)
 
 之前
 1. 用户访问的是业务层
@@ -218,14 +218,14 @@ public class MyTest {
 控制反转IoC(Inversion of Control)，是一种设计思想，DI(依赖注入)是实现IoC的一种方法，也有人认为DI只是IoC的另一种说法。没有IoC的程序中 , 我们使用面向对象编程 , 对象的创建与对象间的依赖关系完全硬编码在程序中，对象的创建由程序自己控制，控制反转后将对象的创建转移给第三方，个人认为所谓控制反转就是：获得依赖对象的方式反转了。
 
 
-![](images/2020-09-01-13-03-48.png)
+![](https://gitee.com/kangyujian/notebook-images/raw/master/images/2020-09-01-13-03-48.png)
 
 IoC是Spring框架的核心内容，使用多种方式完美的实现了IoC，可以使用XML配置，也可以使用注解，新版本的Spring也可以零配置实现IoC。
 
 Spring容器在初始化时先读取配置文件，根据配置文件或元数据创建与组织对象存入容器中，程序使用时再从Ioc容器中取出需要的对象。
 
 
-![](images/2020-09-01-13-06-11.png)
+![](https://gitee.com/kangyujian/notebook-images/raw/master/images/2020-09-01-13-06-11.png)
 
 
 采用XML方式配置Bean的时候，Bean的定义信息是和实现分离的，而采用注解的方式可以把两者合为一体，Bean的定义信息直接以注解的形式定义在实现类中，从而达到了零配置的目的。

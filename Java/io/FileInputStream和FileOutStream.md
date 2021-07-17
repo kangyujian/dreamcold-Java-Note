@@ -52,7 +52,7 @@ public class Demo05 {
 
 结果
 
-![image-20210117200527012](images/image-20210117200527012.png)
+![image-20210117200527012](https://gitee.com/kangyujian/notebook-images/raw/master/images/image-20210117200527012.png)
 
 ## 对非文本文件的复制
 
@@ -105,7 +105,7 @@ public class Demo06 {
 
 效果
 
-<img src="images/image-20210117201522740.png" alt="image-20210117201522740" style="zoom:67%;" />
+<img src="https://gitee.com/kangyujian/notebook-images/raw/master/images/image-20210117201522740.png" alt="image-20210117201522740" style="zoom:67%;" />
 
 - 该函数可以封装成为一个复制文件的函数
 - 注意缓冲的buf大小最好为1024

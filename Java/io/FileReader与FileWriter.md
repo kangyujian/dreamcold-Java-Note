@@ -2,7 +2,7 @@
 
 ## 查看文件的相对路径
 
-<img src="images/image-20210116193512570.png" alt="image-20210116193512570" style="zoom:67%;" />
+<img src="https://gitee.com/kangyujian/notebook-images/raw/master/images/image-20210116193512570.png" alt="image-20210116193512570" style="zoom:67%;" />
 
 示例一：查看文件的相对路径
 
@@ -22,7 +22,7 @@ public class Demo01 {
 
 输出:
 
-<img src="images/image-20210116193551825.png" alt="image-20210116193551825" style="zoom:67%;" />
+<img src="https://gitee.com/kangyujian/notebook-images/raw/master/images/image-20210116193551825.png" alt="image-20210116193551825" style="zoom:67%;" />
 
 
 
@@ -74,7 +74,7 @@ public class Demo01 {
 
 结果
 
-![image-20210116194352096](images/image-20210116194352096.png)
+![image-20210116194352096](https://gitee.com/kangyujian/notebook-images/raw/master/images/image-20210116194352096.png)
 
 ### 写法二
 
@@ -110,7 +110,7 @@ public class Demo01 {
 
 输出:
 
-![image-20210116194649605](images/image-20210116194649605.png)
+![image-20210116194649605](https://gitee.com/kangyujian/notebook-images/raw/master/images/image-20210116194649605.png)
 
 ### 写法三-加异常处理
 
@@ -203,7 +203,7 @@ public class Demo02 {
 
 结果:
 
-![image-20210116195958903](images/image-20210116195958903.png)
+![image-20210116195958903](https://gitee.com/kangyujian/notebook-images/raw/master/images/image-20210116195958903.png)
 
 **注意:**
 
@@ -244,7 +244,7 @@ public class Demo03 {
 
 效果:
 
-<img src="images/image-20210117193102401.png" alt="image-20210117193102401" style="zoom:80%;" />
+<img src="https://gitee.com/kangyujian/notebook-images/raw/master/images/image-20210117193102401.png" alt="image-20210117193102401" style="zoom:80%;" />
 
 **注意：**
 
@@ -317,7 +317,7 @@ public class Demo04 {
 
 效果:
 
-![image-20210117194945034](images/image-20210117194945034.png)
+![image-20210117194945034](https://gitee.com/kangyujian/notebook-images/raw/master/images/image-20210117194945034.png)
 
 注意：
 

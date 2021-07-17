@@ -97,11 +97,11 @@ public class HelloTest {
 
 6. 结果
 
-![](images/2020-09-02-09-32-20.png)
+![](https://gitee.com/kangyujian/notebook-images/raw/master/images/2020-09-02-09-32-20.png)
 
 7. 目录结构
 
-![](images/2020-09-02-09-33-12.png)
+![](https://gitee.com/kangyujian/notebook-images/raw/master/images/2020-09-02-09-33-12.png)
 
 ## 过程的总结
 
@@ -197,7 +197,7 @@ public class MyTest {
 
 这样我们就避免了修改代码
 
-![](images/2020-09-02-11-12-26.png)
+![](https://gitee.com/kangyujian/notebook-images/raw/master/images/2020-09-02-11-12-26.png)
 
 
 

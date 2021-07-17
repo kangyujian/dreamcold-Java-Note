@@ -52,7 +52,7 @@ public class LambdaTest01 {
 
 效果：
 
-![image-20210213132218795](images/image-20210213132218795.png)
+![image-20210213132218795](https://gitee.com/kangyujian/notebook-images/raw/master/images/image-20210213132218795.png)
 
 2. **示例二：比较器中传入比较函数**
 
@@ -84,7 +84,7 @@ public class LambdaTest02 {
 
 效果：
 
-![image-20210213133243966](images/image-20210213133243966.png)
+![image-20210213133243966](https://gitee.com/kangyujian/notebook-images/raw/master/images/image-20210213133243966.png)
 
 ### Lambda表达式的使用
 
@@ -171,7 +171,7 @@ public class LambdaTest01 {
 
 效果：
 
-![image-20210213171719729](images/image-20210213171719729.png)
+![image-20210213171719729](https://gitee.com/kangyujian/notebook-images/raw/master/images/image-20210213171719729.png)
 
 示例二：语法格式二: Lambda 需要一个参数，但是没有返回值。
 
@@ -200,7 +200,7 @@ public class LambdaTest03 {
 
 效果：
 
-![image-20210213172324685](images/image-20210213172324685.png)
+![image-20210213172324685](https://gitee.com/kangyujian/notebook-images/raw/master/images/image-20210213172324685.png)
 
 示例四：数据类型可以省略，因为可由编译器推断得出，称为“类型推断”
 
@@ -229,7 +229,7 @@ public class LambdaTest04 {
 
 效果：
 
-![image-20210213172736161](images/image-20210213172736161.png)
+![image-20210213172736161](https://gitee.com/kangyujian/notebook-images/raw/master/images/image-20210213172736161.png)
 
 示例五：类型推断示例
 
@@ -248,7 +248,7 @@ public class Demo01 {
 
 效果：
 
-![image-20210213173423368](images/image-20210213173423368.png)
+![image-20210213173423368](https://gitee.com/kangyujian/notebook-images/raw/master/images/image-20210213173423368.png)
 
 示例六：语法格式四。Lambda若只需要一个参 数时，参数的小括号可以省略
 
@@ -277,7 +277,7 @@ public class LambdaTest05 {
 
 效果：
 
-![image-20210214130225140](images/image-20210214130225140.png)
+![image-20210214130225140](https://gitee.com/kangyujian/notebook-images/raw/master/images/image-20210214130225140.png)
 
 示例七：语法格式五: Lambda 需要两个或以上的参数，多条执行语句，并且可以有返回值
 
@@ -310,7 +310,7 @@ public class LambdaTest06 {
 
 效果：
 
-![image-20210214130741434](images/image-20210214130741434.png)
+![image-20210214130741434](https://gitee.com/kangyujian/notebook-images/raw/master/images/image-20210214130741434.png)
 
 示例八：方法体只有一条语句时，return 与大括号若有，都可以省略。
 
@@ -335,11 +335,10 @@ public class LamdaTest07 {
 - 你可以通过Lambda表达式来创建该接口的对象。(若 Lambda表达式抛出一个受检异常(即:非运行时异常)，那么该异常需要在目标接口的抽象方法上进行声明)。
 - 我们可以在一个接口上使用@FunctionalInterface注解，这样做可以检查它是否是一个函数式接口。同时javadoc也会包含一条声明，说明这个
 - 接口是一个函数式接口。在java.util.function包下定义了Java 8的丰富的函数式接口
-  
 
 ### Java内置的四大函数式接口
 
-![image-20210214131758476](images/image-20210214131758476.png)
+![image-20210214131758476](https://gitee.com/kangyujian/notebook-images/raw/master/images/image-20210214131758476.png)
 
 
 
@@ -421,7 +420,7 @@ public class Demo07 {
 
 效果：
 
-![image-20210318191419202](images/image-20210318191419202.png)
+![image-20210318191419202](https://gitee.com/kangyujian/notebook-images/raw/master/images/image-20210318191419202.png)
 
 后面我们会讲到`Stream`的`map()`方法。现在我们看到，这里的`map()`需要传入的FunctionalInterface的定义是：
 
@@ -436,358 +435,569 @@ public interface Function<T, R> {
 
 ## 强大的Stream API
 
-### 什么是Stream
+### 什么是Stream API？
 
-Java从8开始，不但引入了Lambda表达式，还引入了一个全新的流式API：Stream API。它位于`java.util.stream`包中。
+- Java8中有两大最为重要的改变。第一个是Lambda表达式:另外- 一个则是Stream API。
+- Stream API (` java. util.stream`)把真正的函数式编程风格引入到Java中。这是目前为止对Java类库最好的补充，因为Stream API可以极大提供Java程序员的生产力，让程序员写出高效率、干净、简洁的代码。Stream是Java8中处理集合的关键抽象概念，它可以指定你希望对集合进行的操作，可以执行非常复杂的查找、过滤和映射数据等操作。使用
+  **Stream API对集合数据进行操作，就类似于使用SQL执行的数据库香询。也可以使用Stream API来并行执行操作**。
+- 简言之，StreamAPl 提供了一种高效且易于使用的处理数据的方式。
 
-*划重点*：这个`Stream`不同于`java.io`的`InputStream`和`OutputStream`，它代表的是任意Java对象的序列。两者对比如下：
+### 为什么要采用Stream API？
 
-|      | java.io                  | java.util.stream           |
-| :--- | :----------------------- | :------------------------- |
-| 存储 | 顺序读写的`byte`或`char` | 顺序输出的任意Java对象实例 |
-| 用途 | 序列化至文件或网络       | 内存计算／业务逻辑         |
+- 实际开发中，项目中多数数据源都来自于Mysql, Oracle等。 但现在数据源可以更多了，有MongDB, Radis等， 而这些NoSQL的数据就需要Java层面去处理。
 
-有同学会问：一个顺序输出的Java对象序列，不就是一个`List`容器吗？
+- Stream和Collection集合的区别: **Collection 是一种静态的内存数据结构，而Stream是有关计算的。**前者是主要面向内存，存储在内存中，后者主要是面向CPU,通过CPU实现计算
 
-*再次划重点*：这个`Stream`和`List`也不一样，`List`存储的每个元素都是已经存储在内存中的某个Java对象，而`Stream`输出的元素可能并没有预先存储在内存中，而是实时计算出来的。
+### Stream到底是什么？
 
-换句话说，`List`的用途是操作一组已存在的Java对象，而`Stream`实现的是惰性计算，两者对比如下：
+Stream是数据渠道，用于操作数据源(集合、数组等)所生成的元素序列。“集合讲的是数据，Stream讲的是计算!”
 
-|      | java.util.List           | java.util.stream     |
-| :--- | :----------------------- | :------------------- |
-| 元素 | 已分配并存储在内存       | 可能未分配，实时计算 |
-| 用途 | 操作一组已存在的Java对象 | 惰性计算             |
+注意:
 
-我们总结一下`Stream`的特点：它可以“存储”有限个或无限个元素。这里的存储打了个引号，是因为元素有可能已经全部存储在内存中，也有可能是根据需要实时计算出来的。
+- Stream自己不会存储元素。
+- Stream不会改变源对象。相反，他们会返回一个持有结果的新Stream.
+- Stream操作是延迟执行的。这意味着他们会等到需要结果的时候才执行。
 
-`Stream`的另一个特点是，一个`Stream`可以轻易地转换为另一个`Stream`，而不是修改原`Stream`本身。
+### Stream操作的三个步骤
 
-最后，真正的计算通常发生在最后结果的获取，也就是惰性计算。
+- 创建Stream:一个数据源(如:集合、数组)，获取一个流
+- 中间操作:一个中间操作链，对数据源的数据进行处理
+- 终止操作(终端操作):一旦执行终止操作，就执行中间操作链，并产生结果，之后，不会再被使用
 
-```java
-Stream<BigInteger> naturals = createNaturalStream(); // 不计算
-Stream<BigInteger> s2 = naturals.map(BigInteger::multiply); // 不计算
-Stream<BigInteger> s3 = s2.limit(100); // 不计算
-s3.forEach(System.out::println); // 计算
-```
+![image-20210521214821835](https://gitee.com/kangyujian/notebook-images/raw/master/images/image-20210521214821835.png)
 
-惰性计算的特点是：一个`Stream`转换为另一个`Stream`时，实际上只存储了转换规则，并没有任何计算发生。
+### 创建Stream流
 
-例如，创建一个全体自然数的`Stream`，不会进行计算，把它转换为上述`s2`这个`Stream`，也不会进行计算。再把`s2`这个无限`Stream`转换为`s3`这个有限的`Stream`，也不会进行计算。只有最后，调用`forEach`确实需要`Stream`输出的元素时，才进行计算。我们通常把`Stream`的操作写成链式操作，代码更简洁：
+#### 前提准备
+
+创建Person类:
 
 ```java
-createNaturalStream()
-    .map(BigInteger::multiply)
-    .limit(100)
-    .forEach(System.out::println);
-```
-
-因此，Stream API的基本用法就是：创建一个`Stream`，然后做若干次转换，最后调用一个求值方法获取真正计算的结果：
-
-```java
-int result = createNaturalStream() // 创建Stream
-             .filter(n -> n % 2 == 0) // 任意个转换
-             .map(n -> n * n) // 任意个转换
-             .limit(100) // 任意个转换
-             .sum(); // 最终计算结果
-```
-
-**小结**
-
-Stream API的特点是：
-
-- Stream API提供了一套新的流式处理的抽象序列；
-- Stream API支持函数式编程和链式操作；
-- Stream可以表示无限序列，并且大多数情况下是惰性求值的
-
-### 创建Stream
-
-#### Stream.of()
-
-创建`Stream`最简单的方式是直接用`Stream.of()`静态方法，传入可变参数即创建了一个能输出确定元素的`Stream`：
-
-```java
-package com.dreamcold.java8;
-
-import java.util.stream.Stream;
-
-public class Demo08 {
-    public static void main(String[] args) {
-        Stream<String> stringStream = Stream.of("a", "b", "c", "d", "e", "f");
-        stringStream.forEach(System.out::println);
-    }
+public class Student {
+    private Integer age;
+    private String name;
+    private Integer score;
+    //getter、setter方法
+    //有参构造器，无参构造器
 }
 ```
 
-效果：
+#### 方式一：通过集合
 
-<img src="images/image-20210318192225901.png" alt="image-20210318192225901" style="zoom:80%;" />
+Java8中的Collection接口被扩展，提供了两个获取流的方法:
 
-#### 基于数组或Collection
-
-第二种创建`Stream`的方法是基于一个数组或者`Collection`，这样该`Stream`输出的元素就是数组或者`Collection`持有的元素：
+- `default Stream<E> stream()`:返回一个顺序流
+- `default Stream<E> parallelStream()`:返回一一个并行流
 
 ```java
-package com.dreamcold.java8;
+package com.dreamcold.java8.test;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
-public class Demo09 {
-    public static void main(String[] args) {
-        List<String> strings = Arrays.stream(new String[]{"a", "b", "c"}).collect(Collectors.toList());
-        strings.stream().forEach(System.out::println);
-    }
-}
-```
-
-把数组变成`Stream`使用`Arrays.stream()`方法。对于`Collection`（`List`、`Set`、`Queue`等），直接调用`stream()`方法就可以获得`Stream`。
-
-上述创建`Stream`的方法都是把一个现有的序列变为`Stream`，它的元素是固定的。
-
-#### 基于Supplier
-
-创建`Stream`还可以通过`Stream.generate()`方法，它需要传入一个`Supplier`对象：
-
-```java
-Stream<String> s = Stream.generate(Supplier<String> sp);
-```
-
-基于`Supplier`创建的`Stream`会不断调用`Supplier.get()`方法来不断产生下一个元素，这种`Stream`保存的不是元素，而是算法，它可以用来表示无限序列。
-
-例如，我们编写一个能不断生成自然数的`Supplier`，它的代码非常简单，每次调用`get()`方法，就生成下一个自然数：
-
-```java
-package com.dreamcold.java8;
-
-import java.util.function.Supplier;
 import java.util.stream.Stream;
-
-class NatualSupplier implements Supplier{
-
-    Integer cnt=0;
-
-    @Override
-    public Object get() {
-        cnt++;
-        return cnt;
-    }
-}
-
-public class Demo10 {
+public class Demo01 {
     public static void main(String[] args) {
-        Stream generate = Stream.generate(new NatualSupplier());
-        generate.limit(10).forEach(System.out::println);
+        List<Student> students=new ArrayList<>();
+        students.add(new Student(12,"xiaoming",90));
+        students.add(new Student(12,"xiaohong",85));
+        students.add(new Student(12,"xiaosong",72));
+        students.add(new Student(12,"xiaoli",67));
+        students.add(new Student(12,"xiaoai",89));
+        //default stream<E> stream() :返回一个顺序流
+        Stream<Student> stream = students.stream();
+        //default Stream<E> parallelStream() :返回一个并行流
+        Stream<Student> studentStream = students.parallelStream();
     }
 }
 ```
 
-上述代码我们用一个`Supplier<Integer>`模拟了一个无限序列（当然受`int`范围限制不是真的无限大）。如果用`List`表示，即便在`int`范围内，也会占用巨大的内存，而`Stream`几乎不占用空间，因为每个元素都是实时计算出来的，用的时候再算。
-
-对于无限序列，如果直接调用`forEach()`或者`count()`这些最终求值操作，会进入死循环，因为永远无法计算完这个序列，所以正确的方法是先把无限序列变成有限序列，例如，用`limit()`方法可以截取前面若干个元素，这样就变成了一个有限序列，对这个有限序列调用`forEach()`或者`count()`操作就没有问题。
-
-
-
-#### 基于类型
-
-因为Java的范型不支持基本类型，所以我们无法用`Stream<int>`这样的类型，会发生编译错误。为了保存`int`，只能使用`Stream<Integer>`，但这样会产生频繁的装箱、拆箱操作。为了提高效率，Java标准库提供了`IntStream`、`LongStream`和`DoubleStream`这三种使用基本类型的`Stream`，它们的使用方法和范型`Stream`没有大的区别，设计这三个`Stream`的目的是提高运行效率：
+#### 方式二：通过数组
 
 ```java
-package com.dreamcold.java8;
-
+package com.dreamcold.java8.test;
 import java.util.Arrays;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-public class Demo11 {
+public class Demo02 {
     public static void main(String[] args) {
-        Stream<int[]> stream = Stream.of(new int[]{1, 2, 3, 4, 5});
-        IntStream stream1 = Arrays.stream(new int[]{1, 2, 3, 4, 5, 6});
-        stream1.forEach(System.out::println);
-        
+        int[] arr=new int[]{1,2,3,4,5,6};
+        IntStream stream = Arrays.stream(arr);
+        //调用Arrays类的static <T> Stream<T> stream(T[] array): 返回一个流
+        Student s1=new Student(12,"xiaoming",90);
+        Student s2=new Student(12,"xiaohong",85);
+        Student[] students=new Student[]{s1,s2};
+        Stream<Student> stream1 = Arrays.stream(students);
     }
 }
 ```
 
-实现一个斐波那契数列:
+#### 方式三：通过Stream的of()
+
+可以调用Stream类静态方法of(),通过显示值创建一一个流。它可以接收任意数量的参数。
+
+`public static<T> Stream<T> of(... values)`:返回一个流
 
 ```java
-package com.dreamcold.java8;
+  Stream<Integer> integerStream = Stream.of(1, 2, 3, 4, 5, 6, 7, 8);
+```
 
-import java.util.function.Supplier;
-import java.util.stream.Stream;
+#### 方式四：创建无限流
 
-class FibSupplier implements Supplier{
-    int a=1;
-    int b=0;
+可以使用静态方法Stream.iterate() 和Stream.generate(),创建无限流。
+
+- 迭代:
+
+```java
+public static<T> Stream<T> iterate(final T seed, final UnaryOperator<T> f)
+```
+
+- 生成
+
+```java
+public static<T> Stream<T> generate(Supplier<T> s)
+```
+
+示例:
+
+```java
+ //遍历前10个偶数
+Stream.iterate(0,t->t+2).limit(10).forEach(System.out::println);
+//生成随机数
+Stream.generate(Math::random).limit(10).forEach(System.out::println);
+```
+
+### Stream流的中间操作
+
+#### 筛选与切片
+
+多个中间操作可以连接起来形成一个流水线，除非流水线上触发终止操作，否则中间操作不会执行任何的处理!而在终止操作时一次性全部处理，称为“惰性求值”。
+
+![image-20210522102945159](https://gitee.com/kangyujian/notebook-images/raw/master/images/image-20210522102945159.png)
+
+1. 示例一：过滤成绩大于80的学生
+
+```java
+        List<Student> students=new ArrayList<>();
+        students.add(new Student(12,"xiaoming",90));
+        students.add(new Student(12,"xiaohong",85));
+        students.add(new Student(12,"xiaosong",72));
+        students.add(new Student(12,"xiaoli",67));
+        students.add(new Student(12,"xiaoai",89));
+        students.stream().filter(s->s.getScore()>80).forEach(System.out::println);
+```
+
+效果:
+
+````
+Student{age=12, name='xiaoming', score=90}
+Student{age=12, name='xiaohong', score=85}
+Student{age=12, name='xiaoai', score=89}
+````
+
+2. 示例二：截断流，使其元素不超过给定的数量
+
+```java
+students.stream().limit(3).forEach(System.out::println);
+```
+
+效果:
+
+```
+Student{age=12, name='xiaoming', score=90}
+Student{age=12, name='xiaohong', score=85}
+Student{age=12, name='xiaosong', score=72}
+```
+
+3. 示例三：跳过元素
+
+```java
+students.stream().skip(2).forEach(System.out::println);
+```
+
+4. 示例四: 筛选去重
+
+```java
+        List<Student> students=new ArrayList<>();
+        students.add(new Student(12,"xiaoming",90));
+        students.add(new Student(12,"xiaoming",90));
+        students.add(new Student(12,"xiaoming",90));
+        students.add(new Student(12,"xiaoming",90));
+        students.add(new Student(12,"xiaoming",90));
+        students.stream().distinct().forEach(System.out::println);
+```
+
+效果:
+
+```
+Student{age=12, name='xiaoming', score=90}
+```
+
+注意:要重写Student类的equals和hashCode方法
+
+```java
+ @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Student)) return false;
+        Student student = (Student) o;
+        return Objects.equals(getAge(), student.getAge()) &&
+                Objects.equals(getName(), student.getName()) &&
+                Objects.equals(getScore(), student.getScore());
+    }
 
     @Override
-    public Object get() {
-        int temp=a+b;
-        b=a;
-        a=temp;
-        return b;
+    public int hashCode() {
+        return Objects.hash(getAge(), getName(), getScore());
     }
-}
-
-public class Demo12 {
-    public static void main(String[] args) {
-        Stream generate = Stream.generate(new FibSupplier());
-        generate.limit(10).forEach(System.out::println);
-
-    }
-}
 ```
 
-效果：
+#### 映射
 
-![image-20210319212132620](images/image-20210319212132620.png)、
+![image-20210522104559757](https://gitee.com/kangyujian/notebook-images/raw/master/images/image-20210522104559757.png)
 
-### Stream流的操作
-
-#### map操作
-
-`Stream.map()`是`Stream`最常用的一个转换方法，它把一个`Stream`转换为另一个`Stream`。
-
-所谓`map`操作，就是把一种操作运算，映射到一个序列的每一个元素上。例如，对`x`计算它的平方，可以使用函数`f(x) = x * x`。我们把这个函数映射到一个序列1，2，3，4，5上，就得到了另一个序列1，4，9，16，25：
-
-```ascii
-            f(x) = x * x
-
-                  │
-                  │
-  ┌───┬───┬───┬───┼───┬───┬───┬───┐
-  │   │   │   │   │   │   │   │   │
-  ▼   ▼   ▼   ▼   ▼   ▼   ▼   ▼   ▼
-
-[ 1   2   3   4   5   6   7   8   9 ]
-
-  │   │   │   │   │   │   │   │   │
-  │   │   │   │   │   │   │   │   │
-  ▼   ▼   ▼   ▼   ▼   ▼   ▼   ▼   ▼
-
-[ 1   4   9  16  25  36  49  64  81 ]
-```
-
-可见，`map`操作，把一个`Stream`的每个元素一一对应到应用了目标函数的结果上。
+示例一: 列表中的字符串批量转大写
 
 ```java
-Stream<Integer> s = Stream.of(1, 2, 3, 4, 5);
-Stream<Integer> s2 = s.map(n -> n * n);
+        List<String> list= Arrays.asList("aa","bb","cc","dd");
+        list.stream().map(str->str.toUpperCase()).forEach(System.out::println);
 ```
 
-如果我们查看`Stream`的源码，会发现`map()`方法接收的对象是`Function`接口对象，它定义了一个`apply()`方法，负责把一个`T`类型转换成`R`类型：
+效果:
 
-```java
-<R> Stream<R> map(Function<? super T, ? extends R> mapper);
+```
+AA
+BB
+CC
+DD
 ```
 
-其中，`Function`的定义是：
+示例二：获取名称长度大于3的学生姓名
 
 ```java
-@FunctionalInterface
-public interface Function<T, R> {
-    // 将T类型转换为R:
-    R apply(T t);
-}
+ 		List<Student> students=new ArrayList<>();
+        students.add(new Student(12,"小红",90));
+        students.add(new Student(12,"小明",85));
+        students.add(new Student(12,"小明明",72));
+        students.add(new Student(12,"小红红",67));
+        students.add(new Student(12,"大黑狗",89));
+        Stream<String> nameStream= students.stream().map(s -> s.getName());
+        nameStream.filter(n->n.length()>3).forEach(System.out::println);
 ```
 
-利用`map()`，不但能完成数学计算，对于字符串操作，以及任何Java对象都是非常有用的。例如：
+示例三:将两个列表中的数字乘方连接到一起
+
+[更多参考](https://www.cnblogs.com/diegodu/p/8794857.html)
 
 ```java
-package com.dreamcold.java8;
+        List<String> list1= Arrays.asList("aa","bb","cc","dd");
+        List<String> list2= Arrays.asList("ee","ff","gg","hh");
+        List<List<String>> lists=new ArrayList<>();
+        lists.add(list1);
+        lists.add(list2);
+        lists.stream().flatMap(s->s.stream().map(x->x.toUpperCase())).forEach(System.out::println);
+```
 
+效果:
 
+```java
+AA
+BB
+CC
+DD
+EE
+FF
+GG
+HH
+```
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Stream;
+#### 排序
 
-public class Demo13 {
-    public static void main(String[] args) {
-        String[] fruit={"  Apple ", " pear ", " ORANGE", " BaNaNa "};
-        Stream<String> stream = Arrays.stream(fruit);
-        stream.map((x)->{
-            return x.trim();
-        }).map((x)->{
-            return x.toLowerCase();
+![image-20210522111845930](https://gitee.com/kangyujian/notebook-images/raw/master/images/image-20210522111845930.png)
+
+示例一:对数字排序
+
+```java
+        List<Integer> list= Arrays.asList(1,2,3,4,5,6);
+        list.stream().sorted().forEach(System.out::println);
+```
+
+效果:
+
+```java
+1
+2
+3
+4
+5
+6
+```
+
+示例二：根据成绩对学生排序
+
+```java
+        List<Student> students=new ArrayList<>();
+        students.add(new Student(12,"xiaoming",90));
+        students.add(new Student(12,"xiaohong",85));
+        students.add(new Student(12,"xiaosong",72));
+        students.add(new Student(12,"xiaoli",67));
+        students.add(new Student(12,"xiaoai",89));
+        //报错:Student cannot be cast to java.lang.Comparable
+        //因为Student类没有实现Comparable接口
+        // students.stream().sorted().forEach(System.out::println);
+        students.stream().sorted((e1,e2)->{
+            return e1.getScore().compareTo(e2.getScore());
         }).forEach(System.out::println);
-        
-    }
-
-
-}
 ```
 
-#### filter操作
+效果:
 
-`Stream.filter()`是`Stream`的另一个常用转换方法。
-
-所谓`filter()`操作，就是对一个`Stream`的所有元素一一进行测试，不满足条件的就被“滤掉”了，剩下的满足条件的元素就构成了一个新的`Stream`。
-
-例如，我们对1，2，3，4，5这个`Stream`调用`filter()`，传入的测试函数`f(x) = x % 2 != 0`用来判断元素是否是奇数，这样就过滤掉偶数，只剩下奇数，因此我们得到了另一个序列1，3，5：
-
-```ascii
-            f(x) = x % 2 != 0
-
-                  │
-                  │
-  ┌───┬───┬───┬───┼───┬───┬───┬───┐
-  │   │   │   │   │   │   │   │   │
-  ▼   ▼   ▼   ▼   ▼   ▼   ▼   ▼   ▼
-
-[ 1   2   3   4   5   6   7   8   9 ]
-
-  │   X   │   X   │   X   │   X   │
-  │       │       │       │       │
-  ▼       ▼       ▼       ▼       ▼
-
-[ 1       3       5       7       9 ]
+```
+Student{age=12, name='xiaoli', score=67}
+Student{age=12, name='xiaosong', score=72}
+Student{age=12, name='xiaohong', score=85}
+Student{age=12, name='xiaoai', score=89}
+Student{age=12, name='xiaoming', score=90}
 ```
 
-用IntStream写出上述逻辑，代码如下：
+### Stream的终止操作
+
+- 终端操作会从流的流水线生成结果。其结果可以是任何不是流的值
+- 例如: `List`、`Integer`, 共至是`void`流进行了终止操作后，不能再次使用。
+
+#### 匹配与查找
+
+![image-20210522114627201](https://gitee.com/kangyujian/notebook-images/raw/master/images/image-20210522114627201.png)
+
+示例一：检查是否所有学生的年龄都大于10岁
 
 ```java
-package com.dreamcold.java8;
-
-import java.util.stream.IntStream;
-
-public class Demo14 {
-    public static void main(String[] args) {
-        IntStream.of(1,2,3,4,5,6,7,8,9).
-                filter((x)->{return x%2==0;}).
-                forEach(System.out::println);
-    }
-}
+  		List<Student> students=new ArrayList<>();
+        students.add(new Student(12,"xiaoming",90));
+        students.add(new Student(12,"xiaohong",85));
+        students.add(new Student(12,"xiaosong",72));
+        students.add(new Student(12,"xiaoli",67));
+        students.add(new Student(12,"xiaoai",89));
+        boolean isAllAgeOldThan10 = students.stream().allMatch(x -> x.getAge() > 10);
+        System.out.println(isAllAgeOldThan10);
 ```
 
-#### reduce
+效果:
+
+```
+true
+```
+
+示例二：检查是否没有学生的姓名以"xiao"开头
 
 ```java
-package com.dreamcold.java8;
-
-import java.util.stream.Stream;
-
-public class Demo15 {
-    public static void main(String[] args) {
-        int sum= Stream.of(1,2,3,4,5,6,7,8,9).reduce(0,(acc,n)->acc+n);
-        System.out.println(sum);
-    }
-}
+boolean isExistNameStartWithXiao = students.stream().noneMatch(x -> x.getName().startsWith("xiao"));//true
 ```
 
-效果：
+示例三：返回第一个元素
 
-![image-20210319223023163](images/image-20210319223023163.png)
+```java
+      Optional<Student> first = students.stream().findFirst();
+```
 
-**注意：**
+效果:
 
-`reduce()`方法将一个`Stream`的每个元素依次作用于`BinaryOperator`，并将结果合并。
+```
+Optional[Student{age=12, name='xiaoming', score=90}]
+```
 
-`reduce()`是聚合方法，聚合方法会立刻对`Stream`进行计算。
+示例四：返回任意的学生
+
+```java
+Optional<Student> any = students.stream().findAny();
+```
+
+效果:
+
+```
+Optional[Student{age=12, name='xiaoming', score=90}]
+```
+
+示例五：返回成绩大于70的学生的个数
+
+````java
+long count = students.stream().filter(x -> x.getScore() > 70).count();//4
+````
+
+示例六： 获取学生中的最高分
+
+```java
+Optional<Integer> max = students.stream().map(x -> x.getScore()).max(Integer::compareTo);
+```
+
+效果:
+
+```
+Optional[90]
+```
+
+#### 规约
+
+备注: map 和reduce的连接通常称为map-reduce模式，因Google用它来进行网络搜索而出名。
+
+![image-20210522120632666](https://gitee.com/kangyujian/notebook-images/raw/master/images/image-20210522120632666.png)
+
+示例一：计算1-10的自然数的和
+
+````java
+   		List<Integer> list= Arrays.asList(1,2,3,4,5,6,7,8,9,10);
+        Integer sum=list.stream().reduce(0,Integer::sum);
+        System.out.println(sum);//55
+````
+
+示例二： 计算学生成绩总和
+
+```java
+  Integer sumScore = students.stream().map(x -> x.getScore()).reduce(0, Integer::sum);
+        System.out.println(sumScore);
+```
+
+#### 收集
+
+![image-20210522121811762](https://gitee.com/kangyujian/notebook-images/raw/master/images/image-20210522121811762.png)
+
+- Collector接口中方法的实现决定了如何对流执行收集的操作(如收集到List. Set.Map).
+- 另外，Collectors 实用类提供了很多静态方法，可以方便地创建常见收集器实例，具体方法与实例如下表:
+
+示例一：查找分数大于70的学生
+
+```java
+   List<Student> employeeList= students.stream().filter(x -> x.getScore() > 70).collect(Collectors.toList());
+       
+```
+
+效果:
+
+```
+Student{age=12, name='小红', score=90}
+Student{age=12, name='小明', score=85}
+Student{age=12, name='小明明', score=72}
+Student{age=12, name='大黑狗', score=89}
+```
 
 ## Optional类
 
+### Optional类简介
 
+- 到目前为止，臭名昭著的空指针异常是导致Java应用程序失败的最常见原因。以前，为了解决空指针异常，Google公司著名的Guava项目引入了Optional类，Guava通过使用检查空值的方式来防止代码污染，它鼓励程序员写更干净的代
+  码。受到Google Guava的启发，Optional类已经成为Java 8类库的一部分。
+
+- `Optional<T>`类(`java.util.Optional`)是一-个容器类，它可以保存类型T的值，代表这个值存在。或者仅仅保存null,表示这个值不存在。原来用`null`表示一个值不存在，现在`Optional`可以更好的表达这个概念。并且可以避免空指针异常。
+- Optional类的Javadoc描述如下:这是一个可以为null的容器对象。如果值存在则isPresent)方法会返回true,调用get()方法 会返回该对象。
+
+### Optional类的方法
+
+Optional提供很多有用的方法，这样我们就不用显式进行空值检测。
+
+- 创建`Optional`类对象的方法:
+  - `Optional.of(T t) `:创建一一个 Optional实例，t必须非空;
+  - `Optional.empty()`:创建一个空的 Optional实例
+  - `Optional.ofNullable(T t)`: t河以为null
+- 判断`Optional`容器中是否包含对象:
+    - `boolean isPresent()` :判断是否包含对象
+    - `void ifPresent(Consumer<? super T> consumer)`:如果有值，就执行Consumer接口的实现代码，并且该值作为参数传给它。
+- 获取`Optional`容器的对象:
+    - `T get()`:如果调用对象包含值，返回该值，否则抛异常
+    - `T orElse(T other)`如果有值则将其返回，否则返回指定的other对象。
+    - `T orElseGet(Supplier<? extends T> other)`:如果有值则将其返回，否则返回由Supplier接口实现提供的对象。
+    - `T orElse Throw(Supplier<? extends X> exceptionSupplier)`:如果有值则将其返回，否则抛出由Supplier接口实现提供的异常。
+
+示例1:  使用of方法创建Optional对象
+
+```java
+Girl girl=new Girl();
+Optional<Girl> girlOptional = Optional.of(girl);
+```
+
+此时故意将girl传值为`null`会报错:
+
+```java
+Girl girl=new Girl();
+girl=null;
+Optional<Girl> girlOptional = Optional.of(girl);
+```
+
+效果:
+
+![image-20210522152832847](https://gitee.com/kangyujian/notebook-images/raw/master/images/image-20210522152832847.png)
+
+示例2：传入允许`null`值:
+
+```java
+  		Girl girl=new Girl();
+        girl=null;
+        Optional<Girl> girlOptional = Optional.ofNullable(girl);
+        System.out.println(girlOptional);
+```
+
+效果:
+
+```java
+Optional.empty
+```
+
+示例3：Optional的应用场景
+
+```java
+ public static void main(String[] args) {
+        Boy boy=new Boy();
+        boy=null;
+        String girlName=getGirlName(boy);
+        System.out.println(girlName);
+    }
+
+    public static String getGirlName(Boy boy){
+        return boy.getGirl().getName();
+    }
+```
+
+效果:出现了空指针异常
+
+```java
+Exception in thread "main" java.lang.NullPointerException
+	at com.dreamcold.java4.OptionalTest.getGirlName(OptionalTest.java:14)
+	at com.dreamcold.java4.OptionalTest.main(OptionalTest.java:9)
+```
+
+优化之后的`getGirlName`方法:加入了optional的判断
+
+```java
+    public static void main(String[] args) {
+        Boy boy=new Boy();
+        boy=null;
+        String girlName=getGirlName(boy);
+        System.out.println(girlName);
+    }
+
+    public static String getGirlName(Boy boy){
+        if (boy!=null){
+            Girl girl=boy.getGirl();
+            if (girl!=null){
+                return girl.getName();
+            }
+        }
+        return null;
+    }
+```
+
+采用Optional来防止空指针异常:
+
+```java
+    public static String getGirlName(Boy boy){
+        Optional<Boy> optionalBoy = Optional.ofNullable(boy);
+        Boy boy1 = optionalBoy.orElse(new Boy(new Girl("xiaohong")));
+        Girl girl=boy1.getGirl();
+        Optional<Girl> optionalGirl = Optional.ofNullable(girl);
+        Girl girl1 = optionalGirl.orElse(new Girl("xiaohua"));
+        return girl1.getName();
+    }
+```
+
+[更多细节可以参考](https://binghe.blog.csdn.net/article/details/106447083)
 
