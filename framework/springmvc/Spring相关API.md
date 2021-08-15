@@ -4,7 +4,7 @@
 
 applicationContext:接口类型，代表应用上下文，可以通过其实例获得Spring容器中的Bean对象
 
-![image-20210719130800417](F:\notebook\dreamcold-Java-Note\framework\springmvc\images\image-20210719130800417.png)
+![img](https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy81NTUxMDYxLWM2MTE2NjA5ZDk5NmM5OGYucG5nP2ltYWdlTW9ncjIvYXV0by1vcmllbnQvc3RyaXB8aW1hZ2VWaWV3Mi8yL3cvMTIwMC9mb3JtYXQvd2VicA?x-oss-process=image/format,png)
 
 ## ApplicationContext的实现类
 
